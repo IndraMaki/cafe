@@ -18,3 +18,6 @@ Route::get('/admin/pesanan', [PesananController::class, 'index'])->name('pesanan
 
 // Halaman Report
 Route::get('/admin/report', [ReportController::class, 'index'])->name('report.index'); // Menampilkan report
+
+//index user
+Route::get('/menu', [MenuController::class, 'userIndex'])->name('user.menu');

@@ -7,18 +7,24 @@ use App\Models\Menu;
 
 class MenuController extends Controller
 {
-    // Menampilkan daftar menu beserta kategori options
+    // Menampilkan daftar menu di halaman admin
     public function index()
     {
-        $menus = Menu::all(); // Mendapatkan semua data menu
-        $kategoriOptions = ['MANTUL', 'JAJANAN', 'SEGER', 'MANIS']; // Opsi kategori
+        $menus = Menu::all();
+        $kategoriOptions = ['MANTUL', 'JAJANAN', 'SEGER', 'MANIS'];
         return view('admin.menu', compact('menus', 'kategoriOptions'));
+    }
+
+    // Menampilkan daftar menu untuk pengguna di halaman user
+    public function userIndex()
+    {
+        $menus = Menu::all();
+        return view('user.index', compact('menus'));
     }
 
     // Menyimpan data menu baru
     public function store(Request $request)
     {
-        // Validasi inputan
         $request->validate([
             'nama' => 'required',
             'keterangan' => 'required',
@@ -27,10 +33,8 @@ class MenuController extends Controller
             'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Menyimpan gambar
         $gambarPath = $request->file('gambar')->store('menu_images', 'public');
 
-        // Menyimpan data menu ke database
         Menu::create([
             'nama' => $request->nama,
             'keterangan' => $request->keterangan,
@@ -45,17 +49,16 @@ class MenuController extends Controller
     // Menampilkan form edit menu
     public function edit($id)
     {
-        $menu = Menu::findOrFail($id); // Menemukan menu berdasarkan ID
-        $kategoriOptions = ['MANTUL', 'JAJANAN', 'SEGER', 'MANIS']; // Opsi kategori
-        return view('admin.editmenu', compact('menu', 'kategoriOptions')); // Menampilkan form edit menu
+        $menu = Menu::findOrFail($id);
+        $kategoriOptions = ['MANTUL', 'JAJANAN', 'SEGER', 'MANIS'];
+        return view('admin.editmenu', compact('menu', 'kategoriOptions'));
     }
 
     // Memperbarui data menu
     public function update(Request $request, $id)
     {
-        $menu = Menu::findOrFail($id); // Menemukan menu berdasarkan ID
+        $menu = Menu::findOrFail($id);
 
-        // Validasi inputan
         $request->validate([
             'nama' => 'required',
             'keterangan' => 'required',
@@ -64,18 +67,14 @@ class MenuController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Menangani gambar jika ada file gambar baru
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama (jika ada)
             if ($menu->gambar) {
                 \Storage::delete('public/' . $menu->gambar);
             }
-            // Simpan gambar baru
             $gambarPath = $request->file('gambar')->store('menu_images', 'public');
             $menu->gambar = $gambarPath;
         }
 
-        // Update data menu
         $menu->update([
             'nama' => $request->nama,
             'keterangan' => $request->keterangan,
@@ -89,14 +88,12 @@ class MenuController extends Controller
     // Menghapus data menu
     public function destroy($id)
     {
-        $menu = Menu::findOrFail($id); // Menemukan menu berdasarkan ID
+        $menu = Menu::findOrFail($id);
 
-        // Hapus gambar menu (jika ada)
         if ($menu->gambar) {
             \Storage::delete('public/' . $menu->gambar);
         }
 
-        // Hapus data menu dari database
         $menu->delete();
 
         return redirect()->route('menu.index')->with('success', 'Menu berhasil dihapus.');
@@ -105,8 +102,7 @@ class MenuController extends Controller
     // Menampilkan form untuk menambah menu
     public function create()
     {
-    $kategoriOptions = ['MANTUL', 'JAJANAN', 'SEGER', 'MANIS']; // Opsi kategori
-    return view('admin.addmenu', compact('kategoriOptions')); // Menampilkan form tambah menu
+        $kategoriOptions = ['MANTUL', 'JAJANAN', 'SEGER', 'MANIS'];
+        return view('admin.addmenu', compact('kategoriOptions'));
     }
-
 }
