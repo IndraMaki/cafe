@@ -15,13 +15,15 @@ class Menu extends Model
         'nama',
         'keterangan',
         'harga',
-        'kategori',
+        'kategori_id', // Menggunakan kategori_id sesuai dengan relasi
         'gambar',
     ];
 
-    // Daftar kategori yang diperbolehkan
-    public static function getKategoriOptions()
+    /**
+     * Relasi ke tabel Kategori (satu menu memiliki satu kategori)
+     */
+    public function kategori()
     {
-        return ['MANTUL', 'JAJANAN', 'SEGER', 'MANIS'];
+        return $this->belongsTo(Kategori::class, 'kategori_id', 'id');
     }
 }

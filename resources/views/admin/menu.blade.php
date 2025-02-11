@@ -25,6 +25,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('report.index') }}">Report</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('kategori.index') }}">Add Kategori</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -63,7 +66,7 @@
                         <td>{{ $menu->nama }}</td>
                         <td>{{ $menu->keterangan }}</td>
                         <td>Rp {{ number_format($menu->harga, 0, ',', '.') }}</td>
-                        <td>{{ $menu->kategori }}</td>
+                        <td>{{ $menu->kategori->nama ?? 'Tidak ada kategori' }}</td>
                         <td>
                             <!-- Memastikan gambar muncul dengan benar -->
                             @if($menu->gambar)

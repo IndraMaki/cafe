@@ -10,8 +10,26 @@
 </head>
 <body>
 
+<!-- Navbar -->
+<nav class="navbar navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">Food4U</a>
+        <button class="btn btn-warning position-relative" data-bs-toggle="modal" data-bs-target="#cartModal">
+            🛒 Keranjang 
+            <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                0
+            </span>
+        </button>
+    </div>
+</nav>
+
 <div class="container mt-5">
     <h2 class="text-center mb-4">Menu Makanan</h2>
+
+    <!-- Alert Notifikasi -->
+    <div id="alert" class="alert alert-success d-none text-center" role="alert">
+        Pesanan berhasil ditambahkan ke keranjang!
+    </div>
 
     <!-- Search Bar -->
     <div class="mb-3">
@@ -34,28 +52,7 @@
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ $menu->nama }}</h5>
                     <p class="text-muted">Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
-                    <span class="badge bg-primary">{{ $menu->kategori }}</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal Detail Menu -->
-        <div class="modal fade" id="menuModal{{ $menu->id }}" tabindex="-1" aria-labelledby="menuModalLabel{{ $menu->id }}" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="menuModalLabel{{ $menu->id }}">{{ $menu->nama }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-center">
-                        <img src="{{ asset('storage/' . $menu->gambar) }}" class="img-fluid mb-3" alt="{{ $menu->nama }}" style="max-height: 300px;">
-                        <p><strong>Keterangan:</strong> {{ $menu->keterangan }}</p>
-                        <p><strong>Kategori:</strong> <span class="badge bg-primary">{{ $menu->kategori }}</span></p>
-                        <h4 class="text-success">Rp {{ number_format($menu->harga, 0, ',', '.') }}</h4>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    </div>
+                    <button class="btn btn-sm btn-primary add-to-cart" data-id="{{ $menu->id }}" data-name="{{ $menu->nama }}" data-price="{{ $menu->harga }}">Add to Cart</button>
                 </div>
             </div>
         </div>
@@ -63,25 +60,73 @@
     </div>
 </div>
 
+<!-- Modal Keranjang -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cartModalLabel">Keranjang Pesanan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul id="cartList" class="list-group"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                <a href="{{ route('pesanan.checkout') }}" class="btn btn-success">Checkout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 $(document).ready(function() {
-    $(".filter-btn").click(function() {
-        var category = $(this).data("filter");
-        $(".menu-item").hide();
-        $(".menu-item[data-category='" + category + "']").show();
-    });
-
-    $("#searchInput").on("keyup", function() {
-        var searchText = $(this).val().toLowerCase();
-        $(".menu-item").each(function() {
-            var menuName = $(this).data("name");
-            if (menuName.includes(searchText)) {
-                $(this).show();
+    function updateCartView() {
+        $.get("{{ route('pesanan.get') }}", function(data) {
+            let cartList = $("#cartList");
+            cartList.empty();
+            if (data.length === 0) {
+                cartList.append("<li class='list-group-item text-center'>Keranjang kosong</li>");
             } else {
-                $(this).hide();
+                data.forEach(item => {
+                    cartList.append(`<li class='list-group-item d-flex justify-content-between'>
+                        ${item.name} - Rp ${item.price}
+                        <button class="btn btn-sm btn-danger remove-from-cart" data-id="${item.id}">❌</button>
+                    </li>`);
+                });
             }
+            $("#cartCount").text(data.length);
+        });
+    }
+
+    $(".add-to-cart").click(function() {
+        var menuId = $(this).data("id");
+        var menuName = $(this).data("name");
+        var menuPrice = $(this).data("price");
+
+        $.post("{{ route('pesanan.add') }}", {
+            _token: "{{ csrf_token() }}",
+            id: menuId,
+            name: menuName,
+            price: menuPrice
+        }, function() {
+            $("#alert").removeClass("d-none").fadeIn().delay(2000).fadeOut();
+            updateCartView();
         });
     });
+
+    $(document).on("click", ".remove-from-cart", function() {
+        var menuId = $(this).data("id");
+
+        $.post("{{ route('pesanan.remove') }}", {
+            _token: "{{ csrf_token() }}",
+            id: menuId
+        }, function() {
+            updateCartView();
+        });
+    });
+
+    updateCartView();
 });
 </script>
 
