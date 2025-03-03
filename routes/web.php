@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Guest\HomeController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Http\Controllers\Guest\HomeController as GuestHomeController;
+
+Route::get('/', [GuestHomeController::class, 'index'])->name('guest.home');

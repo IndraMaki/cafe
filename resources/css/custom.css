@@ -1,0 +1,15 @@
+.guest {
+    @apply max-w-xs mx-auto min-h-screen;
+}
+
+.h1 {
+    @apply text-2xl;
+}
+
+.h2 {
+    @apply text-base font-bold;
+}
+
+.h3 {
+    @apply text-xs font-semibold;
+}
