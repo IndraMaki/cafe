@@ -40,10 +40,8 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <h3 class="text-center text-white">Admin Panel</h3>
-        <a href="{{ route('admin.kategori') }}">Kategori</a>
-        <a href="#">Menu Lain</a>
-        <a href="#">Pengaturan</a>
-        <a href="#">Logout</a>
+        <a href="{{ route('admin.viewkategori') }}">Kategori</a>
+        <a href="{{ route('admin.menu.index') }}">Menu</a>
     </div>
 
     <!-- Main Content -->

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Guest\HomeController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\MenuController;
 
 
 
@@ -22,4 +23,18 @@ Route::prefix('admin')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::get('/kategori', [KategoriController::class, 'index'])->name('admin.kategori');
     Route::post('/kategori/store', [KategoriController::class, 'store'])->name('admin.kategori.store');
+    Route::get('/kategori/view', [KategoriController::class, 'view'])->name('admin.viewkategori');
+    Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('admin.kategori.edit');
+    Route::put('/kategori/{id}/update', [KategoriController::class, 'update'])->name('admin.kategori.update');
+    Route::delete('/kategori/{id}/destroy', [KategoriController::class, 'destroy'])->name('admin.kategori.destroy');
+});
+
+// Routes untuk menu
+Route::prefix('admin')->group(function () {
+    Route::get('/menu', [MenuController::class, 'index'])->name('admin.menu.index');
+    Route::get('/menu/create', [MenuController::class, 'create'])->name('admin.menu.create');
+    Route::post('/menu/store', [MenuController::class, 'store'])->name('admin.menu.store');
+    Route::get('/menu/{menu}/edit', [MenuController::class, 'edit'])->name('admin.menu.edit');
+    Route::put('/menu/{menu}/update', [MenuController::class, 'update'])->name('admin.menu.update');
+    Route::delete('/menu/{menu}/destroy', [MenuController::class, 'destroy'])->name('admin.menu.destroy');
 });
