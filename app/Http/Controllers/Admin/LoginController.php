@@ -20,16 +20,17 @@ class LoginController extends Controller
             'username' => 'required',
             'password' => 'required',
         ]);
-
+    
         if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/admin/dashboard');
+            return redirect()->route('admin.menu.index'); // Arahkan ke halaman menu
         }
-
+    
         return back()->withErrors([
             'username' => 'Username atau password salah.',
         ]);
     }
+    
 
     public function logout(Request $request)
     {
