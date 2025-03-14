@@ -3,6 +3,11 @@
 @section('title', "Home")
 
 @section('content')
+@if(isset($nomorMeja))
+    <div class="bg-blue-100 p-4 rounded-lg shadow-md text-center">
+        <h2 class="text-lg font-semibold">Nomor Meja: {{ $nomorMeja }}</h2>
+    </div>
+@endif
 <div class="guest bg-nf-primary text-slate-50 p-4 shadow-lg">
     <section class="grid grid-cols-[85%_15%] py-2 items-center">
         <div class="flex items-center w-full max-w-md mx-auto bg-slate-50 rounded-full shadow-md p-2">

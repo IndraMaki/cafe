@@ -5,12 +5,9 @@ use App\Http\Controllers\Guest\HomeController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\MenuController;
-
-
+use App\Http\Controllers\Admin\MejaController;
 
 Route::get('/', [HomeController::class, 'index'])->name('guest.home');
-
-
 
 //admin login
 Route::prefix('admin')->group(function () {
@@ -37,4 +34,12 @@ Route::prefix('admin')->group(function () {
     Route::get('/menu/{menu}/edit', [MenuController::class, 'edit'])->name('admin.menu.edit');
     Route::put('/menu/{menu}/update', [MenuController::class, 'update'])->name('admin.menu.update');
     Route::delete('/menu/{menu}/destroy', [MenuController::class, 'destroy'])->name('admin.menu.destroy');
+});
+
+// Routes untuk Meja
+Route::prefix('admin')->group(function () {
+    Route::get('/meja', [MejaController::class, 'index'])->name('admin.meja.index');
+    Route::get('/meja/create', [MejaController::class, 'create'])->name('admin.meja.create');
+    Route::post('/meja/store', [MejaController::class, 'store'])->name('admin.meja.store');
+    Route::delete('/meja/{id}/destroy', [MejaController::class, 'destroy'])->name('admin.meja.destroy');
 });
