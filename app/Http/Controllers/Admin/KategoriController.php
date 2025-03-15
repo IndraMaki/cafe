@@ -46,4 +46,18 @@ class KategoriController extends Controller
         $kategori = Kategori::all();
         return view('admin.viewkategori', compact('kategori'));
     }
+
+    // **Hapus kategori**
+    public function destroy($id)
+    {
+        $kategori = Kategori::findOrFail($id);
+        
+        // Hapus logo jika ada
+        if ($kategori->logo) {
+            Storage::disk('public')->delete($kategori->logo);
+        }
+
+        $kategori->delete();
+        return redirect()->route('admin.viewkategori')->with('success', 'Kategori berhasil dihapus.');
+    }
 }
