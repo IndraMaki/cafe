@@ -42,6 +42,7 @@
         <h3 class="text-center text-white">Admin Panel</h3>
         <a href="{{ route('admin.viewkategori') }}">Kategori</a>
         <a href="{{ route('admin.menu.index') }}">Menu</a>
+        <a href="{{ route('admin.meja.index') }}">Meja</a>
     </div>
 
     <!-- Main Content -->
