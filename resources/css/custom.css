@@ -1,5 +1,13 @@
 .guest {
-    @apply max-w-xs mx-auto min-h-screen;
+    @apply max-w-xs mx-auto flex justify-center items-center min-h-screen;
+}
+
+@media (min-width: 640px) {
+    body {
+        width: 375px; /* iPhone standard width */
+        margin: auto;
+        overflow-x: hidden;
+    }
 }
 
 .h1 {

@@ -15,8 +15,8 @@
     @yield('css')
 </head>
 
-<body class="overflow-x-hidden bg-nf-second">
-    <div class="mx-auto max-w-screen-2xl">
+<body class="guest bg-nf-second">
+    <div class="container py-6 px-5 mx-auto max-w-screen-2xl bg-nf-primary">
         @yield('content')
     </div>
 
