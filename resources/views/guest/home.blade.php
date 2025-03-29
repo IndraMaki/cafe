@@ -47,7 +47,6 @@
                     <p class="h3 py-1">Rp 30.000</p>
                     <button class="h3 mt-2 px-4 py-2 bg-nf-sixth rounded-full hover:bg-opacity-80 transition">Add to Cart</button>
                 </div>
-                
             </div>
         </div>
     </section>
@@ -146,6 +145,131 @@
                 6.16951Z" fill="#F8FAFC"/>
             </svg>
         </button>
+    </section>
+    <section class="flex flex-col gap-4 w-full max-w-md h-auto py-2 rounded-lg overflow-hidden">
+        <h2 class="text-base font-bold text-slate-50">Makanan</h2>
+        <div class="grid grid-cols-4">
+            <div class="col-span-2">
+                <img src="/assets/img/nasi-goreng.png" alt="Nasi Goreng" class="w-32 h-20 object-cover rounded-lg">
+            </div>
+            <div class="col-span-2 flex flex-col justify-center items-start p-1">
+                <h2 class="text-sm font-bold text-slate-50">Nasi Goreng</h2>
+                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 35.000</p>
+                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-yellow-600 rounded-full hover:bg-yellow-700 transition">
+                    Add Cart
+                </button>
+            </div>
+        </div>
+        <div class="grid grid-cols-4">
+            <div class="col-span-2">
+                <img src="/assets/img/mie-goreng.png" alt="Mie Goreng Jawa" class="w-32 h-20 object-cover rounded-lg">
+            </div>
+            <div class="col-span-2 flex flex-col justify-center items-start p-1">
+                <h2 class="text-sm font-bold text-slate-50">Mie Goreng Jawa</h2>
+                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 25.000</p>
+                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-yellow-600 rounded-full hover:bg-yellow-700 transition">
+                    Add Cart
+                </button>
+            </div>
+        </div>
+        <div class="grid grid-cols-4">
+            <div class="col-span-2">
+                <img src="/assets/img/katsu.png" alt="Chicken Katsu" class="w-32 h-20 object-cover rounded-lg">
+            </div>
+            <div class="col-span-2 flex flex-col justify-center items-start p-1">
+                <h2 class="text-sm font-bold text-slate-50">Chicken Katsu</h2>
+                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 30.000</p>
+                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-yellow-600 rounded-full hover:bg-yellow-700 transition">
+                    Add Cart
+                </button>
+            </div>
+        </div>
+        <div class="grid grid-cols-4">
+            <div class="col-span-2">
+                <img src="/assets/img/cumi-tepung.png" alt="Cumi Goreng" class="w-32 h-20 object-cover rounded-lg">
+            </div>
+            <div class="col-span-2 flex flex-col justify-center items-start p-1">
+                <h2 class="text-sm font-bold text-slate-50">Cumi Goreng</h2>
+                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 45.000</p>
+                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-yellow-600 rounded-full hover:bg-yellow-700 transition">
+                    Add Cart
+                </button>
+            </div>
+        </div>
+        <div class="grid grid-cols-4">
+            <div class="col-span-2">
+                <img src="/assets/img/nasi.png" alt="Nasi" class="w-32 h-20 object-cover rounded-lg">
+            </div>
+            <div class="col-span-2 flex flex-col justify-center items-start p-1">
+                <h2 class="text-sm font-bold text-slate-50">Nasi</h2>
+                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 8.000</p>
+                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-yellow-600 rounded-full hover:bg-yellow-700 transition">
+                    Add Cart
+                </button>
+            </div>
+        </div>
+
+        <h2 class="text-base font-bold text-slate-50">Minuman</h2>
+        <div class="grid grid-cols-4">
+            <div class="col-span-2">
+                <img src="/assets/img/nasi-goreng.png" alt="Spaghetti Bolognese" class="w-32 h-20 object-cover rounded-lg">
+            </div>
+            <div class="col-span-2 flex flex-col justify-center items-start p-1">
+                <h2 class="text-sm font-bold text-slate-50">Spaghetti Bolognese</h2>
+                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 35.000</p>
+                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-yellow-600 rounded-full hover:bg-yellow-700 transition">
+                    Add Cart
+                </button>
+            </div>
+        </div>
+        <div class="grid grid-cols-4">
+            <div class="col-span-2">
+                <img src="/assets/img/mie-goreng.png" alt="Spaghetti Bolognese" class="w-32 h-20 object-cover rounded-lg">
+            </div>
+            <div class="col-span-2 flex flex-col justify-center items-start p-1">
+                <h2 class="text-sm font-bold text-slate-50">Spaghetti Bolognese</h2>
+                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 35.000</p>
+                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-yellow-600 rounded-full hover:bg-yellow-700 transition">
+                    Add Cart
+                </button>
+            </div>
+        </div>
+        <div class="grid grid-cols-4">
+            <div class="col-span-2">
+                <img src="/assets/img/katsu.png" alt="Spaghetti Bolognese" class="w-32 h-20 object-cover rounded-lg">
+            </div>
+            <div class="col-span-2 flex flex-col justify-center items-start p-1">
+                <h2 class="text-sm font-bold text-slate-50">Spaghetti Bolognese</h2>
+                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 35.000</p>
+                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-yellow-600 rounded-full hover:bg-yellow-700 transition">
+                    Add Cart
+                </button>
+            </div>
+        </div>
+        <div class="grid grid-cols-4">
+            <div class="col-span-2">
+                <img src="/assets/img/cumi-tepung.png" alt="Spaghetti Bolognese" class="w-32 h-20 object-cover rounded-lg">
+            </div>
+            <div class="col-span-2 flex flex-col justify-center items-start p-1">
+                <h2 class="text-sm font-bold text-slate-50">Spaghetti Bolognese</h2>
+                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 35.000</p>
+                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-yellow-600 rounded-full hover:bg-yellow-700 transition">
+                    Add Cart
+                </button>
+            </div>
+        </div>
+        <div class="grid grid-cols-4">
+            <div class="col-span-2">
+                <img src="/assets/img/nasi.png" alt="Spaghetti Bolognese" class="w-32 h-20 object-cover rounded-lg">
+            </div>
+            <div class="col-span-2 flex flex-col justify-center items-start p-1">
+                <h2 class="text-sm font-bold text-slate-50">Spaghetti Bolognese</h2>
+                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 35.000</p>
+                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-yellow-600 rounded-full hover:bg-yellow-700 transition">
+                    Add Cart
+                </button>
+            </div>
+        </div>
     </section>
 </div>
 @endsection
