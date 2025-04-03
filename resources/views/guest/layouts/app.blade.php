@@ -12,7 +12,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    @yield('css')
+    @yield('css')   
 </head>
 
 <body class="guest bg-nf-second">
