@@ -21,3 +21,11 @@
 .h3 {
     @apply text-xs font-semibold;
 }
+
+.hidden {
+    display: none;
+}
+
+button.active {
+    opacity: 100%;
+}
