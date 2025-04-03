@@ -146,13 +146,60 @@
 <section id="menu" class="max-w-md h-auto py-2">
     <section class="makanan flex flex-col pb-4 gap-4 w-full max-w-md h-auto rounded-lg overflow-hidden">
         <h2 class="text-base font-bold text-slate-50">Makanan</h2>
+        <div x-data="{ open: false, food: {} }">
+            <div 
+                @click="food = { image: '/assets/img/nasi-goreng.png', name: 'Nasi Goreng', price: '25.000', description: 'Nasi goreng spesial dengan telur dan kerupuk', category: 'Makanan' }; open = true" 
+                class="cursor-pointer grid grid-cols-4">
+                <div class="col-span-2">
+                    <img src="/assets/img/nasi-goreng.png" alt="Nasi Goreng" class="w-32 h-20 object-cover rounded-lg">
+                </div>
+                <div class="col-span-2 flex flex-col justify-center items-start p-1">
+                    <h2 class="text-sm font-bold text-slate-50">Nasi Goreng</h2>
+                    <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 35.000</p>
+                    <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div x-show="open" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" x-cloak>
+                <div class="bg-white rounded-2xl w-11/12 md:w-96 overflow-hidden relative">
+                    <img :src="food.image" class="w-full h-48 object-cover">
+
+                    <!-- Close Button -->
+                    <button @click="open = false" class="absolute top-4 right-4 bg-black rounded-full w-8 h-8 flex items-center justify-center">
+                        <span class="text-white text-lg">✕</span>
+                    </button>
+
+                    <div class="p-4">
+                        <span class="bg-yellow-300 px-3 py-1 rounded-lg text-sm font-semibold" x-text="food.category"></span>
+                        <h2 class="text-lg font-bold mt-2" x-text="food.name"></h2>
+                        <p class="text-xl font-bold text-gray-800 mt-1">Rp <span x-text="food.price"></span></p>
+                        <p class="text-gray-500 mt-3" x-text="food.description"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="grid grid-cols-4">
             <div class="col-span-2">
-                <img src="/assets/img/nasi-goreng.png" alt="Nasi Goreng" class="w-32 h-20 object-cover rounded-lg">
+                <img src="/assets/img/mie-goreng.png" alt="Mie Goreng Jawa" class="w-32 h-20 object-cover rounded-lg">
             </div>
             <div class="col-span-2 flex flex-col justify-center items-start p-1">
-                <h2 class="text-sm font-bold text-slate-50">Nasi Goreng</h2>
-                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 35.000</p>
+                <h2 class="text-sm font-bold text-slate-50">Mie Goreng Jawa</h2>
+                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 25.000</p>
+                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+        <div class="grid grid-cols-4">
+            <div class="col-span-2">
+                <img src="/assets/img/mie-goreng.png" alt="Mie Goreng Jawa" class="w-32 h-20 object-cover rounded-lg">
+            </div>
+            <div class="col-span-2 flex flex-col justify-center items-start p-1">
+                <h2 class="text-sm font-bold text-slate-50">Mie Goreng Jawa</h2>
+                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 25.000</p>
                 <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
                     Add to Cart
                 </button>

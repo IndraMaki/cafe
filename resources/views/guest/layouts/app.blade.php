@@ -16,12 +16,13 @@
 </head>
 
 <body class="guest bg-nf-second">
-    <div class="container py-6 px-5 mx-auto h-screen max-w-screen-2xl bg-nf-primary">
+    <div class="container py-6 px-5 mx-auto max-w-screen-2xl bg-nf-primary">
         @yield('content')
     </div>
 
     @yield('script')
     @include('guest.layouts.script')
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </body>
 
 </html>
