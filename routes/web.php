@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Guest\LoginGController;
 use App\Http\Controllers\Guest\HomeController;
 use App\Http\Controllers\Guest\KeranjangController;
+use App\Http\Controllers\Guest\DoneController;
+use App\Http\Controllers\Guest\DetailController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\MenuController;
@@ -13,6 +15,8 @@ use App\Http\Controllers\Admin\MejaController;
 Route::get('/', [HomeController::class, 'index'])->name('guest.home');
 Route::get('/login', [LoginGController::class, 'index'])->name('guest.login');
 Route::get('/keranjang', [KeranjangController::class, 'index'])->name('guest.keranjang');
+Route::get('/done', [DoneController::class, 'index'])->name('guest.done');
+Route::get('/detail-pesanan', [DetailController::class, 'index'])->name('guest.detail-pesanan');
 
 // Route untuk Admin (Login, Logout)
 Route::prefix('admin')->group(function () {

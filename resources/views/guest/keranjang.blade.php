@@ -71,7 +71,7 @@
                     <span>Total Pesanan</span>
                     <span>Rp. 150K</span>
                 </div>
-                <a href="/checkout" class="block bg-white text-center text-black font-semibold py-3 rounded-full">
+                <a href="/done" class="block bg-white text-center text-black font-semibold py-3 rounded-full">
                     Pesan Sekarang
                 </a>
             </div>
