@@ -129,18 +129,14 @@
 
 {{-- Kategori --}}
 <div id="kategori" class="flex gap-2 justify-center py-2">
-    <button id="btn-makanan" class="w-20 h-11 bg-nf-third hover:bg-orange-600 rounded-xl flex items-center justify-center">
-        <img src="/assets/img/icon/makanan.svg" alt="Makanan" class="w-6 h-5">
-    </button>
-    <button id="btn-minuman" class="w-20 h-11 bg-nf-fourth hover:bg-yellow-600 rounded-xl flex items-center justify-center">
-        <img src="/assets/img/icon/minuman.svg" alt="Minuman" class="w-6 h-5">
-    </button>
-    <button id="btn-desert" class="w-20 h-11 bg-nf-third hover:bg-orange-600 rounded-xl flex items-center justify-center">
-        <img src="/assets/img/icon/desert.svg" alt="Dessert" class="w-6 h-5">
-    </button>
-    <button id="btn-snack" class="w-20 h-11 bg-nf-fourth hover:bg-yellow-600 rounded-xl flex items-center justify-center">
-        <img src="/assets/img/icon/snack.svg" alt="Snack" class="w-6 h-5">
-    </button>
+    @foreach($kategori as $kat)
+        <button class="btn btn-outline-primary m-2 filter-btn" data-filter="kategori-{{ $kat->id }}">
+            @if($kat->logo)
+                <img src="{{ asset('storage/' . $kat->logo) }}" class="rounded-circle" width="50" height="50" alt="{{ $kat->nama_kategori }}">
+            @endif
+            {{ $kat->nama_kategori }}
+        </button>
+    @endforeach
 </div>
 
 {{-- Menu --}}
