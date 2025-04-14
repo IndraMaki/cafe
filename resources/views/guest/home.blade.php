@@ -143,181 +143,55 @@
     </button>
 </div>
 
-<section id="menu" class="max-w-md h-auto py-2">
-    <section class="makanan flex flex-col pb-4 gap-4 w-full max-w-md h-auto rounded-lg overflow-hidden">
-        <h2 class="text-base font-bold text-slate-50">Makanan</h2>
-        <div x-data="{ open: false, food: {} }">
-            <div 
-                @click="food = { image: '/assets/img/nasi-goreng.png', name: 'Nasi Goreng', price: '25.000', description: 'Nasi goreng spesial dengan telur dan kerupuk', category: 'Makanan' }; open = true" 
-                class="cursor-pointer grid grid-cols-4">
-                <div class="col-span-2">
-                    <img src="/assets/img/nasi-goreng.png" alt="Nasi Goreng" class="w-32 h-20 object-cover rounded-lg">
+{{-- Menu --}}
+<section class="w-[90%] mx-auto mt-20" x-data="{ open: false, food: {} }">
+    <div class="grid grid-cols-2 gap-4">
+        @foreach ($menus as $menu)
+        <div class="cursor-pointer bg-white rounded-xl shadow-md overflow-hidden">
+            <!-- Klik gambar -->
+            <div @click="food = {
+                image: '{{ asset('storage/' . $menu->gambar) }}',
+                name: '{{ $menu->nama_menu }}',
+                price: '{{ number_format($menu->harga, 0, ',', '.') }}',
+                description: '{{ $menu->deskripsi }}',
+                category: '{{ $menu->kategori->nama_kategori ?? 'Tidak ada' }}'
+             }; open = true">
+                <img src="{{ asset('storage/' . $menu->gambar) }}" alt="{{ $menu->nama_menu }}" class="w-full h-32 object-cover">
+                <div class="p-4">
+                    <h2 class="font-semibold text-lg text-gray-800">{{ $menu->nama_menu }}</h2>
+                    <p class="text-gray-600 text-sm mt-1">Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
                 </div>
-                <div class="col-span-2 flex flex-col justify-center items-start p-1">
-                    <h2 class="text-sm font-bold text-slate-50">Nasi Goreng</h2>
-                    <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 35.000</p>
-                    <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
+            </div>
+            
+            <!-- Tombol Add to Cart -->
+            <div class="p-4 pt-0">
+            <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
                         Add to Cart
-                    </button>
-                </div>
+            </button>
             </div>
+        </div>
+        @endforeach
+    </div>
 
-            <!-- Modal -->
-            <div x-show="open" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" x-cloak>
-                <div class="bg-white rounded-2xl w-11/12 md:w-96 overflow-hidden relative">
-                    <img :src="food.image" class="w-full h-48 object-cover">
+    <!-- Modal -->
+    <div x-show="open" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" x-transition>
+        <div class="bg-white rounded-lg max-w-sm w-full p-4 relative">
+            <button class="absolute top-2 right-2 text-gray-500 hover:text-red-500" @click="open = false">✕</button>
+            <img :src="food.image" alt="" class="w-full h-40 object-cover rounded-md mb-4">
+            <h2 class="text-xl font-bold mb-1" x-text="food.name"></h2>
+            <p class="text-sm text-gray-500 mb-1" x-text="food.category"></p>
+            <p class="text-sm text-gray-500 mb-1" x-text="'Rp ' + food.price"></p>
+            <p class="text-gray-700 mt-2 text-sm" x-text="food.description"></p>
 
-                    <!-- Close Button -->
-                    <button @click="open = false" class="absolute top-4 right-4 bg-black rounded-full w-8 h-8 flex items-center justify-center">
-                        <span class="text-white text-lg">✕</span>
-                    </button>
-
-                    <div class="p-4">
-                        <span class="bg-yellow-300 px-3 py-1 rounded-lg text-sm font-semibold" x-text="food.category"></span>
-                        <h2 class="text-lg font-bold mt-2" x-text="food.name"></h2>
-                        <p class="text-xl font-bold text-gray-800 mt-1">Rp <span x-text="food.price"></span></p>
-                        <p class="text-gray-500 mt-3" x-text="food.description"></p>
-                    </div>
-                </div>
-            </div>
+            <button 
+                class="mt-4 w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg text-sm font-semibold"
+                @click="addToCart(food)">
+                + Tambah ke Keranjang
+            </button>
         </div>
-        <div class="grid grid-cols-4">
-            <div class="col-span-2">
-                <img src="/assets/img/mie-goreng.png" alt="Mie Goreng Jawa" class="w-32 h-20 object-cover rounded-lg">
-            </div>
-            <div class="col-span-2 flex flex-col justify-center items-start p-1">
-                <h2 class="text-sm font-bold text-slate-50">Mie Goreng Jawa</h2>
-                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 25.000</p>
-                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-        <div class="grid grid-cols-4">
-            <div class="col-span-2">
-                <img src="/assets/img/mie-goreng.png" alt="Mie Goreng Jawa" class="w-32 h-20 object-cover rounded-lg">
-            </div>
-            <div class="col-span-2 flex flex-col justify-center items-start p-1">
-                <h2 class="text-sm font-bold text-slate-50">Mie Goreng Jawa</h2>
-                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 25.000</p>
-                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-        <div class="grid grid-cols-4">
-            <div class="col-span-2">
-                <img src="/assets/img/mie-goreng.png" alt="Mie Goreng Jawa" class="w-32 h-20 object-cover rounded-lg">
-            </div>
-            <div class="col-span-2 flex flex-col justify-center items-start p-1">
-                <h2 class="text-sm font-bold text-slate-50">Mie Goreng Jawa</h2>
-                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 25.000</p>
-                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-        <div class="grid grid-cols-4">
-            <div class="col-span-2">
-                <img src="/assets/img/katsu.png" alt="Chicken Katsu" class="w-32 h-20 object-cover rounded-lg">
-            </div>
-            <div class="col-span-2 flex flex-col justify-center items-start p-1">
-                <h2 class="text-sm font-bold text-slate-50">Ayam Katsu</h2>
-                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 30.000</p>
-                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-        <div class="grid grid-cols-4">
-            <div class="col-span-2">
-                <img src="/assets/img/cumi-tepung.png" alt="Cumi Goreng" class="w-32 h-20 object-cover rounded-lg">
-            </div>
-            <div class="col-span-2 flex flex-col justify-center items-start p-1">
-                <h2 class="text-sm font-bold text-slate-50">Cumi Goreng</h2>
-                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 45.000</p>
-                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-        <div class="grid grid-cols-4">
-            <div class="col-span-2">
-                <img src="/assets/img/nasi.png" alt="Nasi" class="w-32 h-20 object-cover rounded-lg">
-            </div>
-            <div class="col-span-2 flex flex-col justify-center items-start p-1">
-                <h2 class="text-sm font-bold text-slate-50">Nasi</h2>
-                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 8.000</p>
-                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-    </section>
-    <section class="minuman flex flex-col gap-4 w-full max-w-md h-auto rounded-lg overflow-hidden">
-        <h2 class="text-base font-bold text-slate-50">Minuman</h2>
-        <div class="grid grid-cols-4">
-            <div class="col-span-2">
-                <img src="/assets/img/teh.jpg" alt="Es Teh" class="w-32 h-20 object-cover rounded-lg">
-            </div>
-            <div class="col-span-2 flex flex-col justify-center items-start p-1">
-                <h2 class="text-sm font-bold text-slate-50">Es Teh</h2>
-                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 15.000</p>
-                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-green-800 rounded-full hover:bg-green-900 transition">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-        <div class="grid grid-cols-4">
-            <div class="col-span-2">
-                <img src="/assets/img/dalgona.jpg" alt="Kopi Dalgona" class="w-32 h-20 object-cover rounded-lg">
-            </div>
-            <div class="col-span-2 flex flex-col justify-center items-start p-1">
-                <h2 class="text-sm font-bold text-slate-50">Kopi Dalgona</h2>
-                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 26.000</p>
-                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-green-800 rounded-full hover:bg-green-900 transition">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-        <div class="grid grid-cols-4">
-            <div class="col-span-2">
-                <img src="/assets/img/thai-tea.jpg" alt="Thai Tea" class="w-32 h-20 object-cover rounded-lg">
-            </div>
-            <div class="col-span-2 flex flex-col justify-center items-start p-1">
-                <h2 class="text-sm font-bold text-slate-50">Thai Tea</h2>
-                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 24.000</p>
-                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-green-800 rounded-full hover:bg-green-900 transition">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-        <div class="grid grid-cols-4">
-            <div class="col-span-2">
-                <img src="/assets/img/matcha.jpg" alt="Matcha Latte" class="w-32 h-20 object-cover rounded-lg">
-            </div>
-            <div class="col-span-2 flex flex-col justify-center items-start p-1">
-                <h2 class="text-sm font-bold text-slate-50">Matcha Latte</h2>
-                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 24.000</p>
-                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-green-800 rounded-full hover:bg-green-900 transition">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-        <div class="grid grid-cols-4">
-            <div class="col-span-2">
-                <img src="/assets/img/smoties.jpg" alt="Alpukat Smoothie" class="w-32 h-20 object-cover rounded-lg">
-            </div>
-            <div class="col-span-2 flex flex-col justify-center items-start p-1">
-                <h2 class="text-sm font-bold text-slate-50">Alpukat Smoothie</h2>
-                <p class="text-xs font-semibold mt-1 ml-2 text-slate-50">Rp 34.000</p>
-                <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-green-800 rounded-full hover:bg-green-900 transition">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-    </section>
+    </div>
 </section>
+
 
 <!-- Filter & Search Script -->
 <script>
