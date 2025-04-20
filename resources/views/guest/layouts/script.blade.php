@@ -72,4 +72,33 @@
             }
         });
     });
+
+    function cartHandler() {
+        return {
+            open: false,
+            food: {},
+            addToCart(food) {
+                fetch('/keranjang', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        id: food.id,
+                        name: food.name,
+                        price: food.price,
+                        image: food.image
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    alert(data.message);
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+            }
+        };
+    }
 </script>

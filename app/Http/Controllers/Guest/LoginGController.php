@@ -11,11 +11,26 @@ class LoginGController extends Controller
 {
     public function index(Request $request)
     {
-        $menus = Menu::with('kategori')->get();
-        $kategori = Kategori::all();
-        $nomor_meja = $request->query('nomor_meja'); // Ambil nomor meja dari URL
-    
-        return view('guest.login', compact('menus', 'kategori', 'nomor_meja'));
+        $nomor_meja = $request->query('nomor_meja');
+        return view('guest.login', compact('nomor_meja'));
     }
+    
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nomor_hp' => 'required|string|max:15',
+            'nomor_meja' => 'required|integer',
+        ]);
+    
+        // Simpan data ke session
+        session([
+            'nomor_hp' => $request->nomor_hp,
+            'nomor_meja' => $request->nomor_meja,
+        ]);
+    
+        return redirect()->route('guest.home');
+    }
+    
+    
     
 }

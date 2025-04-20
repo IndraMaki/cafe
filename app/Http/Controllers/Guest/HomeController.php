@@ -13,9 +13,14 @@ class HomeController extends Controller
     {
         $menus = Menu::with('kategori')->get();
         $kategori = Kategori::all();
-        $nomor_meja = $request->query('nomor_meja'); // Ambil nomor meja dari URL
+        
+        $nomor_meja = $request->query('nomor_meja');
+        if ($nomor_meja) {
+            session(['nomor_meja' => $nomor_meja]);
+        }
     
         return view('guest.home', compact('menus', 'kategori', 'nomor_meja'));
     }
+    
     
 }

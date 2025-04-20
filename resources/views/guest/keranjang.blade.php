@@ -17,19 +17,22 @@
             <!-- Header -->
             <div class="flex items-center justify-between p-4 text-white">
               <a href="/">
-                <img src="assets/img/ic-back.png" alt="back" class="w-5 h-auto">
+                <img src="{{ asset('assets/img/ic-back.png') }}" alt="back" class="w-5 h-auto">
               </a>
               <h1 class="text-sm font-semibold">Keranjang</h1>
-              <a class="opacity-0">
-                ⬅️
-              </a>
+              <a class="opacity-0">⬅️</a>
             </div>
           
             <!-- Nomor Meja -->
             <div class="bg-white py-2 px-4 flex justify-between items-center">
-              <span class="text-gray-500 text-sm">Nomor Meja</span>
-              <span class="text-green-500 font-bold text-sm">5</span>
+                <span class="text-gray-500 text-sm">Nomor Meja</span>
+                <span class="text-green-500 font-bold text-sm">{{ session('nomor_meja') ?? '-' }}</span>
             </div>
+            <!-- <div class="hide bg-white py-2 px-4 flex justify-between items-center">
+                <span class="text-gray-500 text-sm">Nomor HP</span>
+                <span class="text-blue-500 font-bold text-sm">{{ session('nomor_hp') ?? '-' }}</span>
+            </div> -->
+
           
             <!-- Daftar Pesanan -->
             <div class="flex-1 overflow-y-auto">
@@ -37,39 +40,43 @@
                     <h2 class="text-orange-100 text-base font-semibold">Daftar Pesanan</h2>
                 </span>
                 <!-- Item Pesanan -->
+                @forelse ($cart as $id => $item)
                 <div class="bg-white p-4 mb-4 flex items-center">
-                    <img src="assets/img/nasi-goreng.png" alt="nasi-goreng" class="w-20 h-20 rounded-md object-cover mr-4">
+                    <img src="{{ asset($item['image']) }}" alt="{{ $item['name'] }}" class="w-20 h-20 rounded-md object-cover mr-4">
                     <div class="flex-1">
-                        <h3 class="text-gray-900 justify-start text-start font-semibold">Indomie Telor Special</h3>
-                        <p class="text-gray-600 justify-start text-start text-sm">Rp. 50K</p>
+                        <h3 class="text-gray-900 justify-start text-start font-semibold">{{ $item['name'] }}</h3>
+                        <p class="text-gray-600 justify-start text-start text-sm">Rp {{ number_format($item['price'], 0, ',', '.') }}</p>
                         
                         <div class="flex justify-between mt-3">
                             <div class="flex items-center w-fit rounded-md bg-yellow-600">
                                 <button class="bg-yellow-600 text-white rounded-full w-6 h-6 flex items-center justify-center">
-                                    <img src="assets/img/ic-minus.png" style="width: 60%">
+                                    <img src="{{ asset('assets/img/ic-minus.png') }}" style="width: 60%">
                                 </button>
-                                <span class="mx-3 text-white text-sm font-semibold">5</span>
+                                <span class="mx-3 text-white text-sm font-semibold">{{ $item['quantity'] }}</span>
                                 <button class="bg-yellow-700 text-white rounded-r-md w-6 h-6 flex items-center justify-center">
-                                    <img src="assets/img/ic-plus.png" style="width: 60%">
+                                    <img src="{{ asset('assets/img/ic-plus.png') }}" style="width: 60%">
                                 </button>
                             </div>
                             <button class="ml-4">
-                                <img src="assets/img/ic-trash.png" alt="trash" class="w-5 h-5">
+                                <img src="{{ asset('assets/img/ic-trash.png') }}" alt="trash" class="w-5 h-5">
                             </button>
                         </div>
                     </div>
                 </div>
+                @empty
+                <p class="text-white text-sm text-center">Belum ada pesanan</p>
+                @endforelse
             </div>
           
             <!-- Summary dan Tombol Pesan -->
             <div class="bg-yellow-600 p-4 text-sm rounded-t-2xl">
                 <div class="flex justify-between text-white mb-2">
                     <span>Jumlah Item</span>
-                    <span>10 Item</span>
+                    <span>{{ $totalItems ?? 0 }} Item</span>
                 </div>
                 <div class="flex justify-between text-white mb-4">
                     <span>Total Pesanan</span>
-                    <span>Rp. 150K</span>
+                    <span>Rp {{ number_format($totalPrice ?? 0, 0, ',', '.') }}</span>
                 </div>
                 <a href="/done" class="block bg-white text-center text-black font-semibold py-3 rounded-full">
                     Pesan Sekarang
@@ -78,4 +85,26 @@
         </div>          
     </div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const cartData = JSON.parse(localStorage.getItem('cart')) || [];
+        const container = document.getElementById('cart-items');
+        if (cartData.length === 0) {
+            container.innerHTML = '<p class="text-center text-gray-500">Keranjang kosong.</p>';
+        } else {
+            cartData.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'p-4 border-b';
+                el.innerHTML = `
+                    <h3 class="font-bold">${item.name}</h3>
+                    <p>Harga: Rp ${parseInt(item.price).toLocaleString('id-ID')}</p>
+                    <p>Jumlah: ${item.qty}</p>
+                `;
+                container.appendChild(el);
+            });
+        }
+    });
+</script>
+
+
 </html>

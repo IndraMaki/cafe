@@ -25,7 +25,7 @@
                     <td>{{ $key + 1 }}</td>
                     <td>{{ $meja->nomor_meja }}</td>
                     <td>
-                        {!! QrCode::size(100)->generate(url('/') . '?nomor_meja=' . $meja->nomor_meja) !!}
+                        {!! QrCode::size(100)->generate(url('/login') . '?nomor_meja=' . $meja->nomor_meja) !!}
                     </td>
 
                     <td>

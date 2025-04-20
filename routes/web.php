@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\MejaController;
 // Route untuk halaman utama
 Route::get('/', [HomeController::class, 'index'])->name('guest.home');
 Route::get('/login', [LoginGController::class, 'index'])->name('guest.login');
+Route::post('/login', [LoginGController::class, 'store'])->name('guest.login.store');
 Route::get('/keranjang', [KeranjangController::class, 'index'])->name('guest.keranjang');
 Route::get('/done', [DoneController::class, 'index'])->name('guest.done');
 Route::get('/detail-pesanan', [DetailController::class, 'index'])->name('guest.detail-pesanan');
@@ -52,3 +53,6 @@ Route::prefix('admin')->group(function () {
         Route::delete('/{id}/destroy', [MejaController::class, 'destroy'])->name('admin.meja.destroy');
     });
 });
+
+Route::post('/keranjang', [KeranjangController::class, 'addToCart'])->name('guest.keranjang.store');
+Route::get('/keranjang', [KeranjangController::class, 'index'])->name('guest.keranjang.index');

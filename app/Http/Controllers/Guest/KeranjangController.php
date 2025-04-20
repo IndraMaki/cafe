@@ -9,13 +9,42 @@ use App\Models\Kategori;
 
 class KeranjangController extends Controller
 {
-    public function index(Request $request)
+    public function addToCart(Request $request)
     {
-        $menus = Menu::with('kategori')->get();
-        $kategori = Kategori::all();
-        $nomor_meja = $request->query('nomor_meja'); // Ambil nomor meja dari URL
+        $cart = session()->get('cart', []);
     
-        return view('guest.keranjang', compact('menus', 'kategori', 'nomor_meja'));
+        $id = $request->id;
+    
+        if (isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        } else {
+            $cart[$id] = [
+                "id" => $id,
+                "name" => $request->name,
+                "price" => $request->price,
+                "image" => $request->image,
+                "quantity" => 1
+            ];
+        }
+    
+        session()->put('cart', $cart);
+    
+        return response()->json(['message' => 'Berhasil ditambahkan ke keranjang!']);
     }
     
+
+    public function index()
+    {
+        $cart = session('cart', []); // ambil dari session, kalau nggak ada default array kosong
+    
+        // Hitung total item dan total harga
+        $totalItems = array_sum(array_column($cart, 'quantity'));
+        $totalPrice = array_reduce($cart, function($carry, $item) {
+            return $carry + ($item['price'] * $item['quantity']);
+        }, 0);
+    
+        $tableNumber = session('table_number'); // kalau kamu simpan nomor meja di session
+    
+        return view('guest.keranjang', compact('cart', 'totalItems', 'totalPrice', 'tableNumber'));
+    }
 }

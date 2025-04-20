@@ -3,11 +3,19 @@
 @section('title', "Home")
 
 @section('content')
-@if(isset($nomor_meja))
-    <div class="bg-blue-100 p-4 rounded-lg shadow-md text-center">
-        <h2 class="text-lg font-semibold">Nomor Meja: {{ $nomor_meja }}</h2>
+@if(session('nomor_meja'))
+    <div class="bg-blue-100 text-center py-2 rounded-md mb-4">
+        Nomor Meja Anda: <strong>{{ session('nomor_meja') }}</strong>
     </div>
 @endif
+
+@if(session('nomor_hp'))
+    <div class="text-sm text-gray-600 text-center">
+        Nomor HP: {{ session('nomor_hp') }}
+    </div>
+@endif
+
+<script src="https://unpkg.com/alpinejs" defer></script>
 
 <!-- Atas -->
 <section class="max-w-lg mx-auto bg-nf-primary rounded-full flex items-center">
@@ -140,30 +148,36 @@
 </div>
 
 {{-- Menu --}}
-<section class="w-[90%] mx-auto mt-20" x-data="{ open: false, food: {} }">
+<section class="w-[90%] mx-auto mt-20" x-data="cartHandler()">
     <div class="grid grid-cols-2 gap-4">
         @foreach ($menus as $menu)
         <div class="cursor-pointer bg-white rounded-xl shadow-md overflow-hidden">
             <!-- Klik gambar -->
             <div @click="food = {
+                id: {{ $menu->id }},
                 image: '{{ asset('storage/' . $menu->gambar) }}',
-                name: '{{ $menu->nama_menu }}',
-                price: '{{ number_format($menu->harga, 0, ',', '.') }}',
+                name: '{{ $menu->nama_makanan }}',
+                price: {{ $menu->harga }},
                 description: '{{ $menu->deskripsi }}',
                 category: '{{ $menu->kategori->nama_kategori ?? 'Tidak ada' }}'
              }; open = true">
-                <img src="{{ asset('storage/' . $menu->gambar) }}" alt="{{ $menu->nama_menu }}" class="w-full h-32 object-cover">
+                <img src="{{ asset('storage/' . $menu->gambar) }}" alt="{{ $menu->nama_makanan }}" class="w-full h-32 object-cover">
                 <div class="p-4">
-                    <h2 class="font-semibold text-lg text-gray-800">{{ $menu->nama_menu }}</h2>
+                    <h2 class="font-semibold text-lg text-gray-800">{{ $menu->nama_makanan }}</h2>
                     <p class="text-gray-600 text-sm mt-1">Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
                 </div>
             </div>
             
             <!-- Tombol Add to Cart -->
             <div class="p-4 pt-0">
-            <button class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
-                        Add to Cart
-            </button>
+                <button @click="addToCart({
+                    id: {{ $menu->id }},
+                    name: '{{ $menu->nama_makanan }}',
+                    price: {{ $menu->harga }},
+                    image: '{{ asset('storage/' . $menu->gambar) }}'
+                })" class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
+                    Add to Cart
+                </button>
             </div>
         </div>
         @endforeach
@@ -176,14 +190,15 @@
             <img :src="food.image" alt="" class="w-full h-40 object-cover rounded-md mb-4">
             <h2 class="text-xl font-bold mb-1" x-text="food.name"></h2>
             <p class="text-sm text-gray-500 mb-1" x-text="food.category"></p>
-            <p class="text-sm text-gray-500 mb-1" x-text="'Rp ' + food.price"></p>
+            <p class="text-sm text-gray-500 mb-1" x-text="'Rp ' + parseInt(food.price).toLocaleString('id-ID')"></p>
             <p class="text-gray-700 mt-2 text-sm" x-text="food.description"></p>
 
-            <button 
-                class="mt-4 w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg text-sm font-semibold"
-                @click="addToCart(food)">
-                + Tambah ke Keranjang
-            </button>
+            <div class="p-4 pt-0">
+                <button @click="addToCart(food)"
+                    class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
+                    Add to Cart
+                </button>
+            </div>
         </div>
     </div>
 </section>
@@ -225,6 +240,25 @@
                 item.style.display = "none";
             }
         });
+    }
+    function cartHandler() {
+        return {
+            open: false,
+            food: {},
+            cart: JSON.parse(localStorage.getItem('cart')) || [],
+
+            addToCart(item) {
+                let existing = this.cart.find(i => i.id === item.id);
+                if (existing) {
+                    existing.qty += 1;
+                } else {
+                    item.qty = 1;
+                    this.cart.push(item);
+                }
+                localStorage.setItem('cart', JSON.stringify(this.cart));
+                alert(item.name + " ditambahkan ke keranjang!");
+            }
+        }
     }
 </script>
 
