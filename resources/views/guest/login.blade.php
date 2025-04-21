@@ -12,7 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="guest bg-nf-second flex items-center justify-center min-h-screen">
-    <div class="container w-full max-w-xs h-screen text-center bg-nf-primary">
+    <div class="container w-full max-w-none h-screen text-center bg-nf-primary">
         <section class="py-40">
             @if(isset($nomor_meja))
             <h2 class="text-lg font-semibold">Nomor Meja: {{ $nomor_meja }}</h2>

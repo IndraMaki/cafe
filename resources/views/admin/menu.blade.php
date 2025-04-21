@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2>Manajemen Menu</h2>
+    <h2 class="text-2xl font-semibold mb-3">Manajemen Menu</h2>
     
     <!-- Tombol Tambah Menu -->
     <a href="{{ route('admin.menu.create') }}" class="btn btn-success mb-3">Tambah Menu</a>

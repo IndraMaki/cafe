@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2>Tambah Kategori</h2>
+    <h2 class="text-2xl font-semibold mb-4">Daftar Kategori</h2>
 
     <!-- Form Tambah Kategori -->
     <form action="{{ route('admin.kategori.store') }}" method="POST" enctype="multipart/form-data">

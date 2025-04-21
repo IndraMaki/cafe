@@ -1,5 +1,5 @@
 .guest {
-    @apply max-w-xs mx-auto flex justify-center items-center min-h-screen;
+    @apply max-w-none mx-auto flex justify-center items-center min-h-screen;
 }
 
 @media (min-width: 640px) {

@@ -12,7 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="guest bg-nf-second flex items-center justify-center min-h-screen">
-    <div class="container w-full max-w-xs h-screen text-center bg-nf-primary">
+    <div class="container w-full max-w-none h-screen text-center bg-nf-primary">
         <div class="min-h-screen flex flex-col">
             <!-- Header -->
             <div class="flex items-center justify-between p-4 text-white">

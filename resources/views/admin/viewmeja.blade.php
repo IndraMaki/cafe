@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2>Daftar Meja</h2>
+    <h2 class="text-2xl font-semibold mb-3">Daftar Meja</h2>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -25,7 +25,7 @@
                     <td>{{ $key + 1 }}</td>
                     <td>{{ $meja->nomor_meja }}</td>
                     <td>
-                        {!! QrCode::size(100)->generate(url('/login') . '?nomor_meja=' . $meja->nomor_meja) !!}
+                        {!! QrCode::size(70)->generate(url('/login') . '?nomor_meja=' . $meja->nomor_meja) !!}
                     </td>
 
                     <td>

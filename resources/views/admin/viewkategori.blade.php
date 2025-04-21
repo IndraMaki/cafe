@@ -2,14 +2,14 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2>Daftar Kategori</h2>
+    <h2 class="text-2xl font-semibold mb-3">Daftar Kategori</h2>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     <!-- Tombol Tambah Kategori -->
-    <a href="{{ route('admin.kategori') }}" class="btn btn-primary mb-3">+ Tambah Kategori</a>
+    <a href="{{ route('admin.kategori') }}" class="btn btn-primary mb-6">+ Tambah Kategori</a>
 
     <!-- Tabel Kategori -->
     <table class="table table-striped">
