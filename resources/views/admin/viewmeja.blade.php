@@ -8,7 +8,7 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <a href="{{ route('admin.meja.create') }}" class="btn bg-yellow-500 text-white mb-6">+ Tambah Meja</a>
+    <a href="{{ route('admin.meja.create') }}" class="btn bg-yellow-500 hover:bg-yellow-600 text-white mb-6">+ Tambah Meja</a>
 
     <div class="overflow-hidden rounded-xl border border-gray-200 shadow-sm">
         <table class="min-w-full divide-y divide-gray-300 text-sm">

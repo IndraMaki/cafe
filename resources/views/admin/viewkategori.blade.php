@@ -9,7 +9,7 @@
     @endif
 
     <!-- Tombol Tambah Kategori -->
-    <a href="{{ route('admin.kategori') }}" class="btn bg-yellow-500 text-white mb-6">+ Tambah Kategori</a>
+    <a href="{{ route('admin.kategori') }}" class="btn bg-yellow-500 hover:bg-yellow-600 text-white mb-6">+ Tambah Kategori</a>
 
     <!-- Tabel Kategori -->
     <div class="overflow-hidden rounded-xl border border-gray-200 shadow-sm">

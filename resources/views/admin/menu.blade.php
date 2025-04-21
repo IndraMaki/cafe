@@ -5,7 +5,7 @@
     <h2 class="text-2xl font-semibold mb-3">Manajemen Menu</h2>
     
     <!-- Tombol Tambah Menu -->
-    <a href="{{ route('admin.menu.create') }}" class="btn bg-yellow-500 text-white mb-6">+ Tambah Kategori</a>
+    <a href="{{ route('admin.menu.create') }}" class="btn bg-yellow-500 hover:bg-yellow-600 text-white mb-6">+ Tambah Kategori</a>
     
     <!-- Tabel Menu -->
     <div class="overflow-hidden rounded-xl border border-gray-200 shadow-sm">
