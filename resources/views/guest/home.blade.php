@@ -4,13 +4,13 @@
 
 @section('content')
 @if(session('nomor_meja'))
-    <div class="bg-blue-100 text-center py-2 rounded-md mb-4">
+    <div class="hidden bg-blue-100 text-center py-2 rounded-md mb-4">
         Nomor Meja Anda: <strong>{{ session('nomor_meja') }}</strong>
     </div>
 @endif
 
 @if(session('nomor_hp'))
-    <div class="text-sm text-gray-600 text-center">
+    <div class="hidden text-sm text-gray-600 text-center">
         Nomor HP: {{ session('nomor_hp') }}
     </div>
 @endif
