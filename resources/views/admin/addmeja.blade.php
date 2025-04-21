@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2>Tambah Nomor Meja</h2>
+    <h2 class="text-2xl font-semibold mb-3">Tambah Nomor Meja</h2>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -24,7 +24,7 @@
             <label for="nomor_meja" class="form-label">Nomor Meja</label>
             <input type="number" class="form-control" id="nomor_meja" name="nomor_meja" required>
         </div>
-        <button type="submit" class="btn btn-primary">Tambah Meja</button>
+        <button type="submit" class="btn btn-success">Tambah Meja</button>
     </form>
 </div>
 @endsection

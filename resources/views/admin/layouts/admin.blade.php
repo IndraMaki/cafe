@@ -7,29 +7,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-{{-- <body>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <h3 class="text-center text-white">Admin Panel</h3>
-        <a href="{{ route('admin.viewkategori') }}">Kategori</a>
-        <a href="{{ route('admin.menu.index') }}">Menu</a>
-        <a href="{{ route('admin.meja.index') }}">Meja</a>
-    </div>
-
-    <!-- Main Content -->
-    <div class="content">
-        @yield('content')
-    </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-</body> --}}
 <body class="flex min-h-screen">
 
     <!-- Sidebar -->
-    <aside class="w-60 bg-[#660018] text-white flex flex-col py-6 px-4">
+    <aside class="w-80 bg-[#660018] text-white flex flex-col py-6 px-4">
       
       <!-- Logo -->
       <div class="flex items-center gap-3 mb-12 px-2">

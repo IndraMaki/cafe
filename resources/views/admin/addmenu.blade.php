@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2>Tambah Menu</h2>
+    <h2 class="text-2xl font-semibold mb-3">Tambah Menu</h2>
     
     <form action="{{ route('admin.menu.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -30,7 +30,7 @@
             <label>Gambar</label>
             <input type="file" name="gambar" class="form-control" accept="image/*">
         </div>
-        <button type="submit" class="btn btn-primary">Simpan</button>
+        <button type="submit" class="btn btn-success">Simpan</button>
     </form>
 </div>
 @endsection
