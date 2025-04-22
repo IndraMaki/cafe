@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food4U</title>
-    @include('guest.layouts.css')
+@extends('guest.layouts.app')
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+@section('content')
 
-    @yield('css')
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
 <body class="guest bg-nf-second flex items-center justify-center min-h-screen">
     <div class="container w-full max-w-none h-screen text-center bg-nf-primary">
         <div class="min-h-screen flex flex-col">
@@ -26,4 +17,4 @@
         </div>
     </div>
 </body>
-</html>
+@endsection

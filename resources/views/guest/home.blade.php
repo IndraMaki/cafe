@@ -1,6 +1,6 @@
 @extends('guest.layouts.app')
 
-@section('title', "Home")
+@section('title', "| Home")
 
 @section('content')
 @if(session('nomor_meja'))
@@ -18,6 +18,7 @@
 <script src="https://unpkg.com/alpinejs" defer></script>
 
 <!-- Atas -->
+<div class="py-6 px-5">
 <section class="max-w-lg mx-auto bg-nf-primary rounded-full flex items-center">
     <div class="flex items-center bg-white rounded-full p-1 mr-4 shadow-md w-full max-w-lg">
         <input type="text" placeholder="Search Food Here" 
@@ -118,14 +119,26 @@
     <h2 class="text-base font-bold text-slate-50 pb-1">Rekomendasi Saya</h2>
     <div class="w-full overflow-x-auto whitespace-nowrap py-2 text-slate-50">
         <div class="flex gap-4">
-            <div class="w-60 rounded-xl flex flex-col items-center">
+            <div id="suggest" class="w-40 flex-shrink-0 rounded-xl flex flex-col items-center">
                 <img src="/assets/img/nasi-goreng.png" alt="Makanan" class="w-max h-24 object-cover rounded-lg">
                 <h2 class="h2 font-bold mt-2 text-center">Nasi Goreng</h2>
                 <p class="h3 pb-1">Rp 25.000</p>
                 <button class="h3 mt-1 px-3 py-1 bg-nf-sixth rounded-full hover:bg-opacity-80 transition">Add to Cart</button>
             </div>
         
-            <div class="w-60 rounded-xl flex flex-col items-center">
+            <div id="suggest" class="w-40 flex-shrink-0 rounded-xl flex flex-col items-center">
+                <img src="/assets/img/nasi-bakar.png" alt="Makanan" class="w-max h-24 object-cover rounded-lg">
+                <h2 class="h2 font-bold mt-2 text-center">Nasi Bakar</h2>
+                <p class="h3 pb-1">Rp 30.000</p>
+                <button class="h3 mt-1 px-3 py-1 bg-nf-sixth rounded-full hover:bg-opacity-80 transition">Add to Cart</button>
+            </div>
+            <div id="suggest" class="w-40 flex-shrink-0 rounded-xl flex flex-col items-center">
+                <img src="/assets/img/nasi-bakar.png" alt="Makanan" class="w-max h-24 object-cover rounded-lg">
+                <h2 class="h2 font-bold mt-2 text-center">Nasi Bakar</h2>
+                <p class="h3 pb-1">Rp 30.000</p>
+                <button class="h3 mt-1 px-3 py-1 bg-nf-sixth rounded-full hover:bg-opacity-80 transition">Add to Cart</button>
+            </div>
+            <div id="suggest" class="w-40 flex-shrink-0 rounded-xl flex flex-col items-center">
                 <img src="/assets/img/nasi-bakar.png" alt="Makanan" class="w-max h-24 object-cover rounded-lg">
                 <h2 class="h2 font-bold mt-2 text-center">Nasi Bakar</h2>
                 <p class="h3 pb-1">Rp 30.000</p>
@@ -202,7 +215,7 @@
         </div>
     </div>
 </section>
-
+</div>
 
 <!-- Filter & Search Script -->
 <script>
