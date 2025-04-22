@@ -19,10 +19,10 @@
                 <span class="text-gray-500 text-sm">Nomor Meja</span>
                 <span class="text-green-500 font-bold text-sm">{{ session('nomor_meja') ?? '-' }}</span>
             </div>
-            <!-- <div class="hide bg-white py-2 px-4 flex justify-between items-center">
+            <div class="hidden bg-white py-2 px-4 flex justify-between items-center">
                 <span class="text-gray-500 text-sm">Nomor HP</span>
                 <span class="text-blue-500 font-bold text-sm">{{ session('nomor_hp') ?? '-' }}</span>
-            </div> -->
+            </div>
 
           
             <!-- Daftar Pesanan -->

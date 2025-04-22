@@ -42,7 +42,8 @@ class MejaController extends Controller
     // Fungsi untuk membuat QR Code
     public function generateQrCode($nomorMeja)
     {
-        $url = route('guest.keranjang', ['nomor_meja' => $nomorMeja]); 
-        return response(QrCode::size(200)->generate($url));
+    $url = route('guest.login.form', ['nomor_meja' => $nomorMeja]); 
+    return response(QrCode::size(200)->generate($url));
     }
+
 }
