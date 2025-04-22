@@ -45,101 +45,32 @@
     </a>
 </section>
 
-<!-- Filter Kategori -->
-{{-- <div class="container mb-4 text-center">
-    <div class="d-flex flex-wrap justify-content-center">
-        <button class="btn btn-outline-primary m-2 filter-btn active" data-filter="all">Semua</button>
-        @foreach($kategori as $kat)
-            <button class="btn btn-outline-primary m-2 filter-btn" data-filter="kategori-{{ $kat->id }}">
-                @if($kat->logo)
-                    <img src="{{ asset('storage/' . $kat->logo) }}" class="rounded-circle" width="50" height="50" alt="{{ $kat->nama_kategori }}">
-                @endif
-                {{ $kat->nama_kategori }}
-            </button>
-        @endforeach
-    </div>
-</div> --}}
-
-<!-- Daftar Menu -->
-{{-- <div class="container">
-    <h2 class="text-center mb-4">Daftar Menu</h2>
-    <div class="row" id="menuList">
-        @foreach($menus as $menu)
-        <div class="col-md-4 mb-4 menu-item kategori-{{ $menu->kategori->id ?? 'none' }}">
-            <div class="card">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#menuModal{{ $menu->id }}">
-                    @if($menu->gambar)
-                        <img src="{{ asset('storage/' . $menu->gambar) }}" class="card-img-top" alt="{{ $menu->nama_makanan }}">
-                    @else
-                        <img src="{{ asset('images/default-menu.jpg') }}" class="card-img-top" alt="Default Image">
-                    @endif
-                </a>
-                <div class="card-body text-center">
-                    <h5 class="card-title">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#menuModal{{ $menu->id }}">
-                            {{ $menu->nama_makanan }}
-                        </a>
-                    </h5>
-                    <p class="card-text">Harga: Rp{{ number_format($menu->harga, 0, ',', '.') }}</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="menuModal{{ $menu->id }}" tabindex="-1" aria-labelledby="menuModalLabel{{ $menu->id }}" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="menuModalLabel{{ $menu->id }}">{{ $menu->nama_makanan }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body text-center">
-                        @if($menu->gambar)
-                            <img src="{{ asset('storage/' . $menu->gambar) }}" class="img-fluid mb-3" alt="{{ $menu->nama_makanan }}">
-                        @else
-                            <img src="{{ asset('images/default-menu.jpg') }}" class="img-fluid mb-3" alt="Default Image">
-                        @endif
-                        <p><strong>Harga:</strong> Rp{{ number_format($menu->harga, 0, ',', '.') }}</p>
-                        <p><strong>Kategori:</strong> {{ $menu->kategori->nama_kategori ?? 'Tidak Ada Kategori' }}</p>
-                        <p class="text-muted">{{ $menu->deskripsi }}</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        @endforeach
-    </div>
-</div> --}}
-
 {{-- Rekomendasi --}}
 <section id="rekomendasi" class="pt-5">
     <h2 class="text-base font-bold text-slate-50 pb-1">Rekomendasi Saya</h2>
-    <div class="w-full overflow-x-auto whitespace-nowrap py-2 text-slate-50">
+    <div class="w-full overflow-x-auto whitespace-nowrap scroll-hidden py-2 text-slate-50">
         <div class="flex gap-4">
             <div id="suggest" class="w-40 flex-shrink-0 rounded-xl flex flex-col items-center">
-                <img src="/assets/img/nasi-goreng.png" alt="Makanan" class="w-max h-24 object-cover rounded-lg">
+                <img src="/assets/img/nasi-goreng.png" alt="Makanan" class="w-max h-auto object-cover rounded-lg">
                 <h2 class="h2 font-bold mt-2 text-center">Nasi Goreng</h2>
                 <p class="h3 pb-1">Rp 25.000</p>
                 <button class="h3 mt-1 px-3 py-1 bg-nf-sixth rounded-full hover:bg-opacity-80 transition">Add to Cart</button>
             </div>
         
             <div id="suggest" class="w-40 flex-shrink-0 rounded-xl flex flex-col items-center">
-                <img src="/assets/img/nasi-bakar.png" alt="Makanan" class="w-max h-24 object-cover rounded-lg">
+                <img src="/assets/img/nasi-bakar.png" alt="Makanan" class="w-max h-auto object-cover rounded-lg">
                 <h2 class="h2 font-bold mt-2 text-center">Nasi Bakar</h2>
                 <p class="h3 pb-1">Rp 30.000</p>
                 <button class="h3 mt-1 px-3 py-1 bg-nf-sixth rounded-full hover:bg-opacity-80 transition">Add to Cart</button>
             </div>
             <div id="suggest" class="w-40 flex-shrink-0 rounded-xl flex flex-col items-center">
-                <img src="/assets/img/nasi-bakar.png" alt="Makanan" class="w-max h-24 object-cover rounded-lg">
+                <img src="/assets/img/nasi-bakar.png" alt="Makanan" class="w-max h-auto object-cover rounded-lg">
                 <h2 class="h2 font-bold mt-2 text-center">Nasi Bakar</h2>
                 <p class="h3 pb-1">Rp 30.000</p>
                 <button class="h3 mt-1 px-3 py-1 bg-nf-sixth rounded-full hover:bg-opacity-80 transition">Add to Cart</button>
             </div>
             <div id="suggest" class="w-40 flex-shrink-0 rounded-xl flex flex-col items-center">
-                <img src="/assets/img/nasi-bakar.png" alt="Makanan" class="w-max h-24 object-cover rounded-lg">
+                <img src="/assets/img/nasi-bakar.png" alt="Makanan" class="w-max h-auto object-cover rounded-lg">
                 <h2 class="h2 font-bold mt-2 text-center">Nasi Bakar</h2>
                 <p class="h3 pb-1">Rp 30.000</p>
                 <button class="h3 mt-1 px-3 py-1 bg-nf-sixth rounded-full hover:bg-opacity-80 transition">Add to Cart</button>
@@ -151,50 +82,59 @@
 {{-- Kategori --}}
 <div id="kategori" class="flex gap-2 justify-center py-2">
     @foreach($kategori as $kat)
-        <button class="btn btn-outline-primary m-2 filter-btn" data-filter="kategori-{{ $kat->id }}">
+        @php
+            $isGenap = $loop->iteration % 2 == 0;
+            $bgClass = $isGenap ? 'bg-nf-fourth hover:bg-yellow-600' : 'bg-nf-third hover:bg-orange-600';
+        @endphp
+
+        <button id="btn-{{ $kat->nama_kategori }}" class="w-20 h-11 {{ $bgClass }} rounded-xl flex items-center justify-center" data-filter="kategori-{{ $kat->id }}">
             @if($kat->logo)
-                <img src="{{ asset('storage/' . $kat->logo) }}" class="rounded-circle" width="50" height="50" alt="{{ $kat->nama_kategori }}">
+                <img src="{{ asset('storage/' . $kat->logo) }}" class="w-8 h-8" alt="{{ $kat->nama_kategori }}">
             @endif
-            {{ $kat->nama_kategori }}
         </button>
     @endforeach
 </div>
 
 {{-- Menu --}}
-<section class="w-[90%] mx-auto mt-20" x-data="cartHandler()">
-    <div class="grid grid-cols-2 gap-4">
-        @foreach ($menus as $menu)
-        <div class="cursor-pointer bg-white rounded-xl shadow-md overflow-hidden">
-            <!-- Klik gambar -->
-            <div @click="food = {
-                id: {{ $menu->id }},
-                image: '{{ asset('storage/' . $menu->gambar) }}',
-                name: '{{ $menu->nama_makanan }}',
-                price: {{ $menu->harga }},
-                description: '{{ $menu->deskripsi }}',
-                category: '{{ $menu->kategori->nama_kategori ?? 'Tidak ada' }}'
-             }; open = true">
-                <img src="{{ asset('storage/' . $menu->gambar) }}" alt="{{ $menu->nama_makanan }}" class="w-full h-32 object-cover">
-                <div class="p-4">
-                    <h2 class="font-semibold text-lg text-gray-800">{{ $menu->nama_makanan }}</h2>
-                    <p class="text-gray-600 text-sm mt-1">Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
-                </div>
+<section id="menu" class="mx-auto py-2" x-data="cartHandler()">
+    @foreach ($groupedMenus as $kategori => $menus)
+        <section class="{{ $kategori }} flex flex-col pb-4 w-full max-w-md h-auto overflow-hidden">
+            <h2 class="text-base font-bold text-white mb-4">{{ $kategori }}</h2>
+            <div class="grid grid-cols-2 gap-4">
+                @foreach ($menus as $menu)
+                    <div class="cursor-pointer bg-[#f5e8d2] rounded-xl shadow-md overflow-hidden">
+                        <!-- Klik gambar -->
+                        <div @click="food = {
+                            id: {{ $menu->id }},
+                            image: '{{ asset('storage/' . $menu->gambar) }}',
+                            name: '{{ $menu->nama_makanan }}',
+                            price: {{ $menu->harga }},
+                            description: '{{ $menu->deskripsi }}',
+                            category: '{{ $menu->kategori->nama_kategori ?? 'Tidak ada' }}'
+                        }; open = true">
+                            <img src="{{ asset('storage/' . $menu->gambar) }}" alt="{{ $menu->nama_makanan }}" class="w-60 h-28 object-cover">
+                            <div class="p-4">
+                                <h2 class="text-sm font-semibold text-gray-800">{{ $menu->nama_makanan }}</h2>
+                                <p class="text-xs text-gray-600 mt-1">Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Tombol Add to Cart -->
+                        <div class="p-4 pt-0">
+                            <button @click="addToCart({
+                                id: {{ $menu->id }},
+                                name: '{{ $menu->nama_makanan }}',
+                                price: {{ $menu->harga }},
+                                image: '{{ asset('storage/' . $menu->gambar) }}'
+                            })" class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                @endforeach
             </div>
-            
-            <!-- Tombol Add to Cart -->
-            <div class="p-4 pt-0">
-                <button @click="addToCart({
-                    id: {{ $menu->id }},
-                    name: '{{ $menu->nama_makanan }}',
-                    price: {{ $menu->harga }},
-                    image: '{{ asset('storage/' . $menu->gambar) }}'
-                })" class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-        @endforeach
-    </div>
+        </section>
+    @endforeach
 
     <!-- Modal -->
     <div x-show="open" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" x-transition>
@@ -202,13 +142,13 @@
             <button class="absolute top-2 right-2 text-gray-500 hover:text-red-500" @click="open = false">✕</button>
             <img :src="food.image" alt="" class="w-full h-40 object-cover rounded-md mb-4">
             <h2 class="text-xl font-bold mb-1" x-text="food.name"></h2>
-            <p class="text-sm text-gray-500 mb-1" x-text="food.category"></p>
+            {{-- <p class="text-sm text-gray-500 mb-1" x-text="food.category"></p> --}}
             <p class="text-sm text-gray-500 mb-1" x-text="'Rp ' + parseInt(food.price).toLocaleString('id-ID')"></p>
             <p class="text-gray-700 mt-2 text-sm" x-text="food.description"></p>
 
-            <div class="p-4 pt-0">
+            <div class="py-4">
                 <button @click="addToCart(food)"
-                    class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
+                    class="px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
                     Add to Cart
                 </button>
             </div>

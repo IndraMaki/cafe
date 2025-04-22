@@ -8,10 +8,10 @@
     <link rel="icon" type="image/png" href="/assets/img/pure-logo.png" sizes="190x104">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-<body class="flex min-h-screen">
+<body class="flex min-h-screen bg-[#f0e8e8]">
 
     <!-- Sidebar -->
-    <aside class="w-80 bg-[#660018] text-white flex flex-col py-6 px-4">
+    <aside class="w-72 bg-[#660018] fixed h-full text-white flex flex-col py-6 px-4">
       
       <!-- Logo -->
       <div class="flex items-center gap-3 mb-12 px-2">
@@ -63,7 +63,7 @@
       </nav>
     </aside>
   
-    <div class="bg-[#f0e8e8] p-6 content w-full">
+    <div class="ml-72 bg-[#f0e8e8] p-6 content w-full">
         @yield('content')
     </div>
   
