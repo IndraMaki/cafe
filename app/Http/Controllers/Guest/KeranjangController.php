@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\Kategori;
+use App\Models\Pesanan;
+use App\Models\DetailPesanan;
 
 class KeranjangController extends Controller
 {
@@ -42,12 +44,9 @@ public function index()
 {
     $nomorMeja = session('nomor_meja');
 
-    if (!$nomorMeja) {
-        return redirect()->route('guest.pilih-meja'); // misal ada halaman pilih meja
-    }
 
     $cartKey = "cart_$nomorMeja";
-    $cart = session($cartKey, []);
+    $cart = session()->get($cartKey, []);
 
     $totalItems = array_sum(array_column($cart, 'quantity'));
     $totalPrice = array_reduce($cart, function($carry, $item) {
@@ -56,5 +55,45 @@ public function index()
 
     return view('guest.keranjang', compact('cart', 'totalItems', 'totalPrice', 'nomorMeja'));
 }
+
+public function pesan(Request $request)
+{
+    $nomor_meja = session('nomor_meja');
+    $nomor_hp = session('nomor_hp');
+
+    $cartKey = "cart_$nomor_meja";
+    $cart = session($cartKey, []);
+
+    \Log::info('Cart:', $cart);
+    \Log::info('Nomor Meja: ' . $nomor_meja);
+    \Log::info('Nomor HP: ' . $nomor_hp);
+
+    if (empty($cart)) {
+        return redirect()->back()->with('error', 'Keranjang kosong.');
+    }
+
+    // Simpan ke database
+    $pesanan = Pesanan::create([
+        'nomor_meja' => $nomor_meja,
+        'nomor_hp' => $nomor_hp,
+        'status' => 'pending',
+    ]);
+
+    foreach ($cart as $item) {
+        DetailPesanan::create([
+            'pesanan_id' => $pesanan->id,
+            'nama_menu' => $item['name'],
+            'harga' => $item['price'],
+            'jumlah' => $item['quantity'],
+        ]);
+    }
+
+    // Kosongkan keranjang
+    session()->forget($cartKey);
+
+    return redirect('/done')->with('success', 'Pesanan berhasil dikirim');
+}
+
+
 
 }

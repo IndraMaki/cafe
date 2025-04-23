@@ -56,3 +56,5 @@ Route::prefix('admin')->group(function () {
 
 Route::post('/keranjang', [KeranjangController::class, 'addToCart'])->name('guest.keranjang.store');
 Route::get('/keranjang', [KeranjangController::class, 'index'])->name('guest.keranjang.index');
+Route::get('/logout', [LoginGController::class, 'logout'])->name('guest.logout');
+Route::post('/keranjang/pesan', [KeranjangController::class, 'pesan'])->name('keranjang.pesan');

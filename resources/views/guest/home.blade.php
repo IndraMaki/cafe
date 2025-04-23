@@ -18,6 +18,7 @@
 <script src="https://unpkg.com/alpinejs" defer></script>
 
 <!-- Atas -->
+<a href="{{ route('guest.logout') }}">Logout</a>
 <div class="py-6 px-5">
 <section class="max-w-lg mx-auto bg-nf-primary rounded-full flex items-center">
     <div class="flex items-center bg-white rounded-full p-1 mr-4 shadow-md w-full max-w-lg">

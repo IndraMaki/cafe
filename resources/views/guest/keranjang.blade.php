@@ -69,9 +69,13 @@
                     <span>Total Pesanan</span>
                     <span>Rp {{ number_format($totalPrice ?? 0, 0, ',', '.') }}</span>
                 </div>
-                <a href="/done" class="block bg-white text-center text-black font-semibold py-3 rounded-full">
-                    Pesan Sekarang
-                </a>
+                <form action="{{ route('keranjang.pesan') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="block w-full bg-white text-center text-black font-semibold py-3 rounded-full">
+                        Pesan Sekarang
+                    </button>
+                </form>
+
             </div>
         </div>          
     </div>
