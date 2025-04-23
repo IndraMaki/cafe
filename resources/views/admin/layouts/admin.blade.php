@@ -53,9 +53,8 @@
           Order History
         </a>
   
-        <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-lg 
-            {{-- ini lu sesuaiin sama root hrefnya nanti --}}
-            {{ Route::is('') ? 'bg-[#F8B602] font-semibold':'hover:bg-[#4a0011] transition'}}">
+        <a href="{{ route('admin.pesanan.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg 
+            {{ Route::is('admin.pesanan.index') ? 'bg-[#F8B602] font-semibold':'hover:bg-[#4a0011] transition'}}">
           <img src="/assets/img/ic-bills.png" alt="Bills" class="w-6 h-6">
           Bills
         </a>
