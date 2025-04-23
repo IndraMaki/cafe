@@ -120,7 +120,7 @@
                         </div>
                         <div class="col-span-2 flex flex-col justify-center items-start">
                             <h2 class="text-sm font-semibold text-slate-100">{{ $menu->nama_makanan }}</h2>
-                            <p class="text-xs text-slate-300 mt-1 ml-2">Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
+                            <p class="text-xs text-slate-200 mt-1 ml-2">Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
                             <div class="pt-0">
                                 <button @click="addToCart({
                                     id: {{ $menu->id }},
