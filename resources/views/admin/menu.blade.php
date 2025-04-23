@@ -5,7 +5,7 @@
     <h2 class="text-2xl font-semibold mb-3">Manajemen Menu</h2>
     
     <!-- Tombol Tambah Menu -->
-    <a href="{{ route('admin.menu.create') }}" class="btn bg-yellow-500 hover:bg-yellow-600 text-white mb-6">+ Tambah Kategori</a>
+    <a href="{{ route('admin.menu.create') }}" class="btn bg-yellow-500 hover:bg-yellow-600 text-white mb-6">+ Tambah Menu</a>
     
     <!-- Tabel Menu -->
     <div class="overflow-hidden rounded-xl border border-gray-200 shadow-sm">
@@ -13,7 +13,7 @@
             <thead class="bg-gray-50 text-gray-600 uppercase text-xs font-semibold">
                 <tr>
                     <th class="px-4 py-3 text-left">ID</th>
-                    <th class="px-4 py-3 text-left">Nama Makanan</th>
+                    <th class="px-4 py-3 text-left">Nama</th>
                     <th class="px-4 py-3 text-left">Deskripsi</th>
                     <th class="px-4 py-3 text-left">Harga</th>
                     <th class="px-4 py-3 text-left">Kategori</th>
