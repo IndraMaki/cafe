@@ -83,4 +83,6 @@ Route::prefix('admin')->group(function () {
     // Manajemen Pesanan
     Route::get('/pesanan', [PesananController::class, 'index'])->name('admin.pesanan.index');
     Route::delete('/pesanan/{id}', [PesananController::class, 'destroy'])->name('admin.pesanan.destroy');
+    Route::get('/admin/orderhistory', [App\Http\Controllers\Admin\PesananController::class, 'history'])->name('admin.pesanan.history');
+
 });

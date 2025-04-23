@@ -46,9 +46,9 @@
         Menu
         </a>
 
-        <a href="#" class="flex items-center gap-3 px-4 py-3 w-auto rounded-lg 
+        <a href="{{ route('admin.pesanan.history') }}" class="flex items-center gap-3 px-4 py-3 w-auto rounded-lg 
             {{-- ini lu sesuaiin sama root hrefnya nanti --}}
-            {{ Route::is('') ? 'bg-[#F8B602] font-semibold':'hover:bg-[#4a0011] transition'}}">
+            {{ Route::is('admin.pesanan.history') ? 'bg-[#F8B602] font-semibold':'hover:bg-[#4a0011] transition'}}">
           <img src="/assets/img/ic-history.png" alt="Order History" class="w-6 h-6">
           Order History
         </a>

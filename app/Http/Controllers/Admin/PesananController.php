@@ -39,4 +39,24 @@ class PesananController extends Controller
 
         return redirect()->back()->with('success', 'Pesanan telah diselesaikan.');
     }
+    public function history()
+{
+    $menus = Pesanan::with('detailPesanan')
+        ->where('status', 'selesai')
+        ->get()
+        ->map(function ($pesanan) {
+            return (object)[
+                'id' => $pesanan->id,
+                'nama_makanan' => $pesanan->detailPesanan->pluck('nama_menu')->implode(', '),
+                'nomor_meja' => $pesanan->nomor_meja,
+                'nomor_hp' => $pesanan->nomor_hp,
+                'harga' => $pesanan->detailPesanan->sum(function ($detail) {
+                    return $detail->harga * $detail->jumlah;
+                }),
+            ];
+        });
+
+    return view('admin.orderhistory', compact('menus'));
+}
+
 }
