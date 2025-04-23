@@ -98,13 +98,16 @@
 {{-- Menu --}}
 <section id="menu" class="mx-auto py-2" x-data="cartHandler()">
     @foreach ($groupedMenus as $kategori => $menus)
-        <section class="{{ $kategori }} flex flex-col pb-4 w-full max-w-md h-auto overflow-hidden">
-            <h2 class="text-base font-bold text-white mb-4">{{ $kategori }}</h2>
-            <div class="grid grid-cols-2 gap-4">
+        @php
+            $isGenap = $loop->iteration % 2 == 0;
+            $bgClass = $isGenap ? 'bg-green-800 rounded-full hover:bg-green-900' : 'bg-nf-fiveth rounded-full hover:bg-yellow-700';
+        @endphp 
+        <section class="{{ $kategori }} flex flex-col w-full max-w-md h-auto overflow-hidden">
+            <h2 id="title" class="title text-base font-bold text-white mb-4">{{ $kategori }}</h2>
+            {{-- <div class="grid grid-cols-4 gap-4"> --}}
                 @foreach ($menus as $menu)
-                    <div class="cursor-pointer bg-[#f5e8d2] rounded-xl shadow-md overflow-hidden">
-                        <!-- Klik gambar -->
-                        <div @click="food = {
+                    <div class="cursor-pointer grid grid-cols-4 pb-4 overflow-hidden"
+                        @click="food = {
                             id: {{ $menu->id }},
                             image: '{{ asset('storage/' . $menu->gambar) }}',
                             name: '{{ $menu->nama_makanan }}',
@@ -112,27 +115,26 @@
                             description: '{{ $menu->deskripsi }}',
                             category: '{{ $menu->kategori->nama_kategori ?? 'Tidak ada' }}'
                         }; open = true">
-                            <img src="{{ asset('storage/' . $menu->gambar) }}" alt="{{ $menu->nama_makanan }}" class="w-60 h-28 object-cover">
-                            <div class="p-4">
-                                <h2 class="text-sm font-semibold text-gray-800">{{ $menu->nama_makanan }}</h2>
-                                <p class="text-xs text-gray-600 mt-1">Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
-                            </div>
+                        <div class="col-span-2">
+                            <img src="{{ asset('storage/' . $menu->gambar) }}" alt="{{ $menu->nama_makanan }}" class="w-36 h-24 object-cover rounded-lg">
                         </div>
-
-                        <!-- Tombol Add to Cart -->
-                        <div class="p-4 pt-0">
-                            <button @click="addToCart({
-                                id: {{ $menu->id }},
-                                name: '{{ $menu->nama_makanan }}',
-                                price: {{ $menu->harga }},
-                                image: '{{ asset('storage/' . $menu->gambar) }}'
-                            })" class="mt-2 px-3 py-1 text-xs font-semibold text-slate-50 bg-nf-fiveth rounded-full hover:bg-yellow-700 transition">
-                                Add to Cart
-                            </button>
+                        <div class="col-span-2 flex flex-col justify-center items-start">
+                            <h2 class="text-sm font-semibold text-slate-100">{{ $menu->nama_makanan }}</h2>
+                            <p class="text-xs text-slate-300 mt-1 ml-2">Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
+                            <div class="pt-0">
+                                <button @click="addToCart({
+                                    id: {{ $menu->id }},
+                                    name: '{{ $menu->nama_makanan }}',
+                                    price: {{ $menu->harga }},
+                                    image: '{{ asset('storage/' . $menu->gambar) }}'
+                                })" class="mt-3 px-3 py-1 text-xs font-semibold text-slate-50 {{ $bgClass }} transition">
+                                    Add to Cart
+                                </button>
+                            </div>
                         </div>
                     </div>
                 @endforeach
-            </div>
+            {{-- </div> --}}
         </section>
     @endforeach
 
