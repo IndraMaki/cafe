@@ -6,7 +6,7 @@
         <section class="py-40">
             @if(isset($nomor_meja))
 
-            <h2 class="text-lg font-semibold">Nomor Meja: {{ $nomor_meja }}</h2>
+            <h2 class="hidden text-lg font-semibold">Nomor Meja: {{ $nomor_meja }}</h2>
             <input type="hidden" name="nomor_meja" value="{{ request('nomor_meja') }}">
 
             @endif

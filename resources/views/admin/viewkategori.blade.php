@@ -29,7 +29,9 @@
                         <td class="px-4 py-2 font-medium text-gray-900">{{ $item->nama_kategori }}</td>
                         <td class="px-4 py-2">
                             @if($item->logo)
-                                <img src="{{ asset('storage/' . $item->logo) }}" alt="Logo" class="h-10 w-10 rounded-md object-cover">
+                            <div class="w-20 h-11 bg-stone-300 rounded-xl flex items-center justify-center">
+                                <img src="{{ asset('storage/' . $item->logo) }}" alt="Logo" class="h-8 w-7 rounded-md object-cover">
+                            </div>
                             @else
                                 <span class="text-gray-400">-</span>
                             @endif

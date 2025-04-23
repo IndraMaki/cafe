@@ -12,6 +12,9 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $menus = Menu::with('kategori')->get();
+        $groupedMenus = $menus->groupBy(function ($item) {
+            return $item->kategori->nama_kategori ?? 'Tanpa Kategori';
+        });
         $kategori = Kategori::all();
         
         $nomor_meja = $request->query('nomor_meja');
@@ -19,7 +22,7 @@ class HomeController extends Controller
             session(['nomor_meja' => $nomor_meja]);
         }
     
-        return view('guest.home', compact('menus', 'kategori', 'nomor_meja'));
+        return view('guest.home', compact('menus','groupedMenus', 'kategori', 'nomor_meja'));
     }
     
     

@@ -26,12 +26,12 @@
                 <tr class="bg-white hover:bg-gray-50 transition">
                     <td class="px-4 py-2">{{ $menu->id }}</td>
                     <td class="px-4 py-2 font-medium text-gray-900">{{ $menu->nama_makanan }}</td>
-                    <td class="px-4 py-2">{{ $menu->deskripsi }}</td>
+                    <td class="px-4 py-2 w-72">{{ $menu->deskripsi }}</td>
                     <td class="px-4 py-2">Rp {{ number_format($menu->harga, 0, ',', '.') }}</td>
                     <td class="px-4 py-2">{{ $menu->kategori->nama_kategori }}</td>
                     <td class="px-4 py-2">
                         @if ($menu->gambar)
-                            <img src="{{ asset('storage/' . $menu->gambar) }}" width="50">
+                            <img src="{{ asset('storage/' . $menu->gambar) }}" class="w-24 rounded-md h-auto">
                         @else
                             -
                         @endif

@@ -39,6 +39,7 @@
     const sections = document.querySelectorAll('#menu > section');
     const rekomendasi = document.getElementById('rekomendasi');
     const kategori = document.getElementById('kategori');
+    const title = document.getElementById('title');
 
     buttons.forEach((btn) => {
         btn.addEventListener('click', () => {
