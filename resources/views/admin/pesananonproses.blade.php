@@ -24,15 +24,17 @@
             </thead>
             <tbody class="divide-y divide-gray-100">
                 @forelse ($menus as $menu)
-                <tr class="bg-white hover:bg-gray-50 transition">
+                <tr class="bg-white hover:bg-gray-50 transition cursor-pointer" onclick="showModal({{ $menu->id }})">
                     <td class="px-4 py-2">{{ $menu->id }}</td>
                     <td class="px-4 py-2">{{ $menu->nomor_meja }}</td>
                     <td class="px-4 py-2">{{ $menu->nomor_hp }}</td>
-                    <td class="px-4 py-2">Rp {{ number_format($menu->harga, 0, ',', '.') }}</td>
+                    <td class="px-4 py-2">
+                        Rp {{ number_format($menu->detailPesanan->sum(fn($d) => $d->harga * $d->jumlah), 0, ',', '.') }}
+                    </td>
                     <td class="px-4 py-2">
                         <span class="text-yellow-600 font-semibold">Belum Bayar</span>
                     </td>
-                    <td class="px-4 py-2 space-x-2">
+                    <td class="px-4 py-2 space-x-2" onclick="event.stopPropagation();">
                         <form action="{{ route('admin.pesanan.destroy', $menu->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
@@ -42,13 +44,51 @@
                         </form>
                     </td>
                 </tr>
+
+                {{-- Modal --}}
+{{-- Modal --}}
+                <div id="modal-{{ $menu->id }}" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center">
+                    <div class="bg-white p-6 rounded-lg w-full max-w-lg">
+                        <h3 class="text-xl font-bold mb-4">Detail Pesanan (ID: {{ $menu->id }})</h3>
+                        <p><strong>Meja:</strong> {{ $menu->nomor_meja }}</p>
+                        <p><strong>No. Telp:</strong> {{ $menu->nomor_hp }}</p>
+                        <p class="mt-4 font-semibold">Daftar Menu:</p>
+                        <ul class="list-disc list-inside">
+                            @foreach ($menu->detailPesanan as $detail)
+                                <li>
+                                    {{ $detail->nama_menu }} - {{ $detail->jumlah }} pcs 
+                                    (Rp {{ number_format($detail->harga * $detail->jumlah, 0, ',', '.') }})
+                                </li>
+                            @endforeach
+                        </ul>
+                        <div class="mt-4 font-bold text-right">
+                            Total: Rp {{ number_format($menu->detailPesanan->sum(fn($d) => $d->harga * $d->jumlah), 0, ',', '.') }}
+                        </div>
+                        <div class="mt-4 text-right">
+                            <button onclick="hideModal({{ $menu->id }})" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Tutup</button>
+                        </div>
+                    </div>
+                </div>
+
                 @empty
                 <tr>
-                    <td colspan="5" class="text-center py-4 text-gray-500">Tidak ada pesanan.</td>
+                    <td colspan="6" class="text-center py-4 text-gray-500">Tidak ada pesanan.</td>
                 </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
 </div>
+
+{{-- Modal Scripts --}}
+<script>
+    function showModal(id) {
+        document.getElementById('modal-' + id).classList.remove('hidden');
+        document.getElementById('modal-' + id).classList.add('flex');
+    }
+
+    function hideModal(id) {
+        document.getElementById('modal-' + id).classList.add('hidden');
+    }
+</script>
 @endsection

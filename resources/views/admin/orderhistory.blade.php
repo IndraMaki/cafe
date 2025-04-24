@@ -13,6 +13,7 @@
                     <th class="px-4 py-3 text-left">Nomor Telp</th>
                     <th class="px-4 py-3 text-left">Pesanan</th>
                     <th class="px-4 py-3 text-left">Total Harga</th>
+                    <th class="px-4 py-3 text-left">Tanggal</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
@@ -23,6 +24,8 @@
                     <td class="px-4 py-2">{{ $menu->nomor_hp }}</td>
                     <td class="px-4 py-2">{{ $menu->nama_makanan }}</td>
                     <td class="px-4 py-2">Rp {{ number_format($menu->harga, 0, ',', '.') }}</td>
+                    <td class="px-4 py-2">{{ \Carbon\Carbon::parse($menu->tanggal_selesai)->format('d M Y H:i') }}</td>
+
                 </tr>
                 @empty
                 <tr>
