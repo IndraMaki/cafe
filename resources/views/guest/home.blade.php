@@ -52,37 +52,23 @@
 
     {{-- Rekomendasi --}}
     <section id="rekomendasi" class="pt-2">
-        <h2 class="text-base font-bold text-slate-50 pb-1">Rekomendasi Saya</h2>
-        <div class="w-full overflow-x-auto whitespace-nowrap scroll-hidden py-2 text-slate-50">
-            <div class="flex gap-4">
+    <h2 class="text-base font-bold text-slate-50 pb-1">Rekomendasi Saya</h2>
+    <div class="w-full overflow-x-auto whitespace-nowrap scroll-hidden py-2 text-slate-50">
+        <div class="flex gap-4">
+            @forelse ($rekomendasi as $menu)
                 <div id="suggest" class="w-40 flex-shrink-0 rounded-xl flex flex-col items-center">
-                    <img src="/assets/img/nasi-goreng.png" alt="Makanan" class="w-max h-auto object-cover rounded-lg">
-                    <h2 class="h2 font-bold mt-2 text-center">Nasi Goreng</h2>
-                    <p class="h3 pb-1">Rp 25.000</p>
+                    <img src="{{ asset('storage/' . $menu->gambar) }}" alt="{{ $menu->nama_makanan }}" class="w-max h-auto object-cover rounded-lg">
+                    <h2 class="h2 font-bold mt-2 text-center">{{ $menu->nama_makanan }}</h2>
+                    <p class="h3 pb-1">Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
                     <button class="h3 mt-1 px-3 py-1 bg-nf-sixth rounded-full hover:bg-opacity-80 transition">Add to Cart</button>
                 </div>
-            
-                <div id="suggest" class="w-40 flex-shrink-0 rounded-xl flex flex-col items-center">
-                    <img src="/assets/img/nasi-bakar.png" alt="Makanan" class="w-max h-auto object-cover rounded-lg">
-                    <h2 class="h2 font-bold mt-2 text-center">Nasi Bakar</h2>
-                    <p class="h3 pb-1">Rp 30.000</p>
-                    <button class="h3 mt-1 px-3 py-1 bg-nf-sixth rounded-full hover:bg-opacity-80 transition">Add to Cart</button>
-                </div>
-                <div id="suggest" class="w-40 flex-shrink-0 rounded-xl flex flex-col items-center">
-                    <img src="/assets/img/nasi-bakar.png" alt="Makanan" class="w-max h-auto object-cover rounded-lg">
-                    <h2 class="h2 font-bold mt-2 text-center">Nasi Bakar</h2>
-                    <p class="h3 pb-1">Rp 30.000</p>
-                    <button class="h3 mt-1 px-3 py-1 bg-nf-sixth rounded-full hover:bg-opacity-80 transition">Add to Cart</button>
-                </div>
-                <div id="suggest" class="w-40 flex-shrink-0 rounded-xl flex flex-col items-center">
-                    <img src="/assets/img/nasi-bakar.png" alt="Makanan" class="w-max h-auto object-cover rounded-lg">
-                    <h2 class="h2 font-bold mt-2 text-center">Nasi Bakar</h2>
-                    <p class="h3 pb-1">Rp 30.000</p>
-                    <button class="h3 mt-1 px-3 py-1 bg-nf-sixth rounded-full hover:bg-opacity-80 transition">Add to Cart</button>
-                </div>
-            </div>
+            @empty
+                <p class="text-slate-300">Belum ada rekomendasi tersedia.</p>
+            @endforelse
         </div>
-    </section>
+    </div>
+</section>
+
 
     {{-- Kategori --}}
     <div id="kategori" class="flex gap-2 justify-center py-2">

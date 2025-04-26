@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Guest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Menu;
-use App\Models\Kategori; 
+use App\Models\Kategori;
+use App\Models\Pesanan;
+use App\Models\DetailPesanan;
+use Illuminate\Support\Collection;
 
 class HomeController extends Controller
 {
@@ -21,31 +24,69 @@ class HomeController extends Controller
         if ($nomor_meja) {
             session(['nomor_meja' => $nomor_meja]);
         }
-    
-        return view('guest.home', compact('menus','groupedMenus', 'kategori', 'nomor_meja'));
+        
+        // Ambil nomor_hp dari session
+        $nomor_hp = session('nomor_hp');
+        // Panggil fungsi rekomendasi
+        $rekomendasi = $this->rekomendasi($nomor_hp);
+
+        return view('guest.home', compact('menus', 'groupedMenus', 'kategori', 'nomor_meja', 'rekomendasi'));
     }
+
     public function search(Request $request)
     {
         $query = $request->input('query');
         
         if ($query) {
-            // Cari menu berdasarkan nama
             $menus = Menu::with('kategori')->where('nama_makanan', 'LIKE', '%' . $query . '%')->get();
         } else {
-            // Ambil semua menu jika tidak ada query pencarian
             $menus = Menu::with('kategori')->get();
         }
     
-        // Kelompokkan menu berdasarkan kategori
         $groupedMenus = $menus->groupBy(function ($item) {
             return $item->kategori->nama_kategori ?? 'Tanpa Kategori';
         });
         
         $kategori = Kategori::all();
-        $nomor_meja = session('nomor_meja'); // ambil dari session, bukan dari query lagi
+        $nomor_meja = session('nomor_meja');
         
-        return view('guest.home', compact('menus', 'groupedMenus', 'kategori', 'nomor_meja'));
+        // Ambil nomor_hp dari session juga saat search
+        $nomor_hp = session('nomor_hp');
+        $rekomendasi = $this->rekomendasi($nomor_hp);
+
+        return view('guest.home', compact('menus', 'groupedMenus', 'kategori', 'nomor_meja', 'rekomendasi'));
     }
     
-    
+    private function rekomendasi($nomor_hp)
+    {
+        if (!$nomor_hp) {
+            return collect(); // Mengembalikan collection kosong
+        }
+
+        // Cek apakah nomor HP ini pernah melakukan pesanan
+        $pernahPesan = Pesanan::where('nomor_hp', $nomor_hp)->exists();
+
+        if ($pernahPesan) {
+            // Kalau pernah, ambil nama_menu yang pernah dipesan lewat DetailPesanan
+            $rekomendasiNamaMenu = DetailPesanan::whereHas('pesanan', function($query) use ($nomor_hp) {
+                    $query->where('nomor_hp', $nomor_hp);
+                })
+                ->select('nama_menu')
+                ->groupBy('nama_menu')
+                ->orderByRaw('COUNT(*) DESC')
+                ->limit(5)
+                ->pluck('nama_menu');
+
+            return Menu::whereIn('nama_makanan', $rekomendasiNamaMenu)->get();
+        } else {
+            // Kalau belum pernah pesan, ambil menu paling populer
+            $rekomendasiNamaMenu = DetailPesanan::select('nama_menu')
+                ->groupBy('nama_menu')
+                ->orderByRaw('COUNT(*) DESC')
+                ->limit(5)
+                ->pluck('nama_menu');
+
+            return Menu::whereIn('nama_makanan', $rekomendasiNamaMenu)->get();
+        }
+    }
 }
