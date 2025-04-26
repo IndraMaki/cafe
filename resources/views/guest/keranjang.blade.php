@@ -40,15 +40,20 @@
                         
                         <div class="flex justify-between mt-3">
                             <div class="flex items-center w-fit rounded-md bg-yellow-600">
-                                <button class="bg-yellow-600 text-white rounded-full w-6 h-6 flex items-center justify-center">
+                                <!-- Button Minus -->
+                                <button onclick="decreaseQuantity({{ $item['id'] }})" class="bg-yellow-600 text-white rounded-full w-6 h-6 flex items-center justify-center">
                                     <img src="{{ asset('assets/img/ic-minus.png') }}" style="width: 60%">
                                 </button>
+
                                 <span class="mx-3 text-white text-sm font-semibold">{{ $item['quantity'] }}</span>
-                                <button class="bg-yellow-700 text-white rounded-r-md w-6 h-6 flex items-center justify-center">
+
+                                <!-- Button Plus -->
+                                <button onclick="increaseQuantity({{ $item['id'] }})" class="bg-yellow-700 text-white rounded-r-md w-6 h-6 flex items-center justify-center">
                                     <img src="{{ asset('assets/img/ic-plus.png') }}" style="width: 60%">
                                 </button>
                             </div>
-                            <button class="ml-4">
+
+                            <button onclick="removeFromCart({{ $item['id'] }})" class="ml-4">
                                 <img src="{{ asset('assets/img/ic-trash.png') }}" alt="trash" class="w-5 h-5">
                             </button>
                         </div>
@@ -99,5 +104,56 @@
             });
         }
     });
+    function increaseQuantity(id) {
+    fetch("{{ route('cart.increase') }}", {
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}",
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: id })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload(); // Reload untuk update quantity
+        }
+    });
+}
+
+function decreaseQuantity(id) {
+    fetch("{{ route('cart.decrease') }}", {
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}",
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: id })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload(); // Reload untuk update quantity
+        }
+    });
+}
+function removeFromCart(id) {
+    if (confirm("Apakah kamu yakin ingin menghapus item ini?")) {
+        fetch("{{ route('cart.remove') }}", {
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: id })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload(); // Reload untuk update keranjang
+            }
+        });
+    }
+}
 </script>
 @endsection

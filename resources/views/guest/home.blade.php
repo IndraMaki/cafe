@@ -51,7 +51,7 @@
     </section>
 
     {{-- Rekomendasi --}}
-    <section id="rekomendasi" class="pt-2">
+    <section id="rekomendasi" class="pt-2" x-data="cartHandler()">
     <h2 class="text-base font-bold text-slate-50 pb-1">Rekomendasi Saya</h2>
     <div class="w-full overflow-x-auto whitespace-nowrap scroll-hidden py-2 text-slate-50">
         <div class="flex gap-4">
@@ -60,14 +60,25 @@
                     <img src="{{ asset('storage/' . $menu->gambar) }}" alt="{{ $menu->nama_makanan }}" class="w-max h-auto object-cover rounded-lg">
                     <h2 class="h2 font-bold mt-2 text-center">{{ $menu->nama_makanan }}</h2>
                     <p class="h3 pb-1">Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
-                    <button class="h3 mt-1 px-3 py-1 bg-nf-sixth rounded-full hover:bg-opacity-80 transition">Add to Cart</button>
+                    <button 
+                        class="h3 mt-1 px-3 py-1 bg-nf-sixth rounded-full hover:bg-opacity-80 transition"
+                        @click="addToCart({
+                            id: {{ $menu->id }},
+                            name: '{{ $menu->nama_makanan }}',
+                            price: {{ $menu->harga }},
+                            image: '{{ asset('storage/' . $menu->gambar) }}'
+                        })"
+                    >
+                        Add to Cart
+                    </button>
                 </div>
             @empty
                 <p class="text-slate-300">Belum ada rekomendasi tersedia.</p>
             @endforelse
         </div>
     </div>
-</section>
+    </section>
+
 
 
     {{-- Kategori --}}

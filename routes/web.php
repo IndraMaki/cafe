@@ -36,6 +36,11 @@ Route::get('/logout', [LoginGController::class, 'logout'])->name('guest.logout')
 Route::get('/keranjang', [KeranjangController::class, 'index'])->name('guest.keranjang.index');
 Route::post('/keranjang', [KeranjangController::class, 'addToCart'])->name('guest.keranjang.store');
 Route::post('/keranjang/pesan', [KeranjangController::class, 'pesan'])->name('keranjang.pesan');
+Route::post('/cart/increase', [App\Http\Controllers\Guest\KeranjangController::class, 'increaseQuantity'])->name('cart.increase');
+Route::post('/cart/decrease', [App\Http\Controllers\Guest\KeranjangController::class, 'decreaseQuantity'])->name('cart.decrease');
+Route::post('/cart/remove', [App\Http\Controllers\Guest\KeranjangController::class, 'removeFromCart'])->name('cart.remove');
+
+
 
 // Halaman done dan detail
 Route::get('/done', [DoneController::class, 'index'])->name('guest.done');
