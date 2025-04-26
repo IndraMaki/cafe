@@ -24,6 +24,8 @@ use App\Http\Controllers\Admin\PesananController;
 
 // Halaman utama
 Route::get('/', [HomeController::class, 'index'])->name('guest.home');
+Route::get('/search', [HomeController::class, 'search'])->name('search');
+
 
 // Login Guest
 Route::get('/login', [LoginGController::class, 'index'])->name('guest.login');

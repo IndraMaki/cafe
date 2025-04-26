@@ -25,15 +25,15 @@
         Logout
     </a>
     <section class="max-w-lg mx-auto py-2 bg-nf-primary rounded-full flex items-center">
-        <div class="flex items-center bg-white rounded-full p-1 mr-4 shadow-md w-full max-w-lg">
-            <input type="text" placeholder="Search Food Here" 
+        <form action="{{ route('search') }}" method="GET" class="flex items-center bg-white rounded-full p-1 mr-4 shadow-md w-full max-w-lg">
+            <input type="text" name="query" placeholder="Search Food Here" 
                 class="flex-grow text-xs text-gray-700 bg-white border-none rounded-full px-4 py-2 focus:ring-2 focus:outline-none">
-            <button class="p-2 rounded-full transition">
+            <button type="submit" class="p-2 rounded-full transition">
                 <svg class="w-5 h-5 text-nf-primary cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M16 10a6 6 0 11-12 0 6 6 0 0112 0z"/>
                 </svg>
             </button>
-        </div>
+        </form>
         <a href="/keranjang">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M17 18C15.89 18 15 18.89 15 20C15 20.5304 15.2107 21.0391 15.5858 21.4142C15.9609 21.7893 16.4696 
