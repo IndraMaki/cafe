@@ -37,9 +37,12 @@
                         @endif
                     </td>
                     <td class="px-4 py-2 space-x-2">
-                        <a href="{{ route('admin.menu.edit', $menu->id) }}" class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-orange-600 bg-orange-100 hover:bg-orange-200 rounded-md transition">
-                            ✏️ Edit
-                        </a>
+                        <form action="{{ route('admin.menu.edit', $menu->id) }}" method="GET" class="inline-block">
+                            <button type="submit" class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-orange-600 bg-orange-100 hover:bg-orange-200 rounded-md transition">
+                                ✏️ Edit
+                            </button>
+                        </form>
+
                         <form action="{{ route('admin.menu.destroy', $menu->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')

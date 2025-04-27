@@ -27,7 +27,7 @@ class MenuController extends Controller
     // Menyimpan menu baru
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama_makanan' => 'required|string|max:255',
             'deskripsi' => 'required',
             'harga' => 'required|numeric',
@@ -35,18 +35,11 @@ class MenuController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $gambarPath = null;
         if ($request->hasFile('gambar')) {
-            $gambarPath = $request->file('gambar')->store('menus', 'public');
+            $validated['gambar'] = $request->file('gambar')->store('menus', 'public');
         }
 
-        Menu::create([
-            'nama_makanan' => $request->nama_makanan,
-            'deskripsi' => $request->deskripsi,
-            'harga' => $request->harga,
-            'kategori_id' => $request->kategori_id,
-            'gambar' => $gambarPath,
-        ]);
+        Menu::create($validated);
 
         return redirect()->route('admin.menu.index')->with('success', 'Menu berhasil ditambahkan.');
     }
@@ -61,7 +54,7 @@ class MenuController extends Controller
     // Memperbarui menu
     public function update(Request $request, Menu $menu)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama_makanan' => 'required|string|max:255',
             'deskripsi' => 'required',
             'harga' => 'required|numeric',
@@ -73,10 +66,10 @@ class MenuController extends Controller
             if ($menu->gambar) {
                 Storage::disk('public')->delete($menu->gambar);
             }
-            $menu->gambar = $request->file('gambar')->store('menus', 'public');
+            $validated['gambar'] = $request->file('gambar')->store('menus', 'public');
         }
 
-        $menu->update($request->only(['nama_makanan', 'deskripsi', 'harga', 'kategori_id', 'gambar']));
+        $menu->update($validated);
 
         return redirect()->route('admin.menu.index')->with('success', 'Menu berhasil diperbarui.');
     }
