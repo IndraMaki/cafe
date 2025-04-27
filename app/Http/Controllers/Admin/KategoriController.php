@@ -60,4 +60,37 @@ class KategoriController extends Controller
         $kategori->delete();
         return redirect()->route('admin.viewkategori')->with('success', 'Kategori berhasil dihapus.');
     }
+    // Tampilkan form edit
+    public function edit($id)
+    {
+        $kategori = Kategori::findOrFail($id);
+        return view('admin.editkategori', compact('kategori'));
+    }
+
+// Simpan perubahan kategori
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama_kategori' => 'required|string|max:255|unique:kategoris,nama_kategori,' . $id,
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $kategori = Kategori::findOrFail($id);
+
+        // Kalau ada upload logo baru
+        if ($request->hasFile('logo')) {
+            // Hapus logo lama
+            if ($kategori->logo) {
+                Storage::disk('public')->delete($kategori->logo);
+            }
+            $logoPath = $request->file('logo')->store('logos', 'public');
+            $kategori->logo = $logoPath;
+        }
+
+        $kategori->nama_kategori = $request->nama_kategori;
+        $kategori->save();
+
+        return redirect()->route('admin.viewkategori')->with('success', 'Kategori berhasil diperbarui.');
+    }
+
 }
