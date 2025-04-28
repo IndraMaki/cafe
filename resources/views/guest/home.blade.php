@@ -124,7 +124,7 @@
                                 <h2 class="text-sm font-semibold text-slate-100">{{ $menu->nama_makanan }}</h2>
                                 <p class="text-xs text-slate-200 mt-1 ml-2">Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
                                 <div class="pt-0">
-                                    <button @click="addToCart({
+                                    <button @click.stop="addToCart({
                                         id: {{ $menu->id }},
                                         name: '{{ $menu->nama_makanan }}',
                                         price: {{ $menu->harga }},

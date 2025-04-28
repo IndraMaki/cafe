@@ -48,9 +48,14 @@
                 </div>
             @endif
         </div>
-
-        <button type="submit" class="btn btn-primary">Update Menu</button>
-        <a href="{{ route('admin.menu.index') }}" class="btn btn-secondary">Batal</a>
+        <div class="flex gap-3">
+            <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-2 rounded-md">
+                Simpan Perubahan
+            </button>
+            <a href="{{ route('admin.menu.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-6 py-2 rounded-md">
+                Batal
+            </a>
+        </div>
     </form>
 </div>
 @endsection

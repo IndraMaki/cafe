@@ -39,7 +39,7 @@
             @endif
         </div>
 
-        <div class="flex gap-4">
+        <div class="flex gap-3">
             <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-2 rounded-md">
                 Simpan Perubahan
             </button>
