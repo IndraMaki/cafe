@@ -21,9 +21,9 @@
       <!-- Menu Items -->
       <nav class="flex flex-col gap-2 w-auto text-sm font-medium ">
   
-        <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-lg 
+        <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg 
             {{-- ini lu sesuaiin sama root hrefnya nanti --}}
-            {{ Route::is('') ? 'bg-[#F8B602] font-semibold':'hover:bg-[#4a0011] transition'}}">
+            {{ Route::is('admin.dashboard') ? 'bg-[#F8B602] font-semibold':'hover:bg-[#4a0011] transition'}}">
           <img src="/assets/img/ic-dashboard.png" alt="Dashboard" class="w-6 h-6">
           Dashboard
         </a>
