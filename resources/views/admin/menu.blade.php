@@ -31,7 +31,9 @@
                     <td class="px-4 py-2">{{ $menu->kategori->nama_kategori }}</td>
                     <td class="px-4 py-2">
                         @if ($menu->gambar)
-                            <img src="{{ asset('storage/' . $menu->gambar) }}" class="w-24 rounded-md h-auto">
+                            <div class="w-auto h-16">
+                                <img src="{{ asset('storage/' . $menu->gambar) }}" class="w-28 object-cover rounded-md h-full">
+                            </div>
                         @else
                             -
                         @endif

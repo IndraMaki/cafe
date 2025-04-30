@@ -57,7 +57,9 @@
         <div class="flex gap-4">
             @forelse ($rekomendasi as $menu)
                 <div id="suggest" class="w-40 flex-shrink-0 rounded-xl flex flex-col items-center">
-                    <img src="{{ asset('storage/' . $menu->gambar) }}" alt="{{ $menu->nama_makanan }}" class="w-max h-auto object-cover rounded-lg">
+                    <div class="w-auto h-28">
+                        <img src="{{ asset('storage/' . $menu->gambar) }}" alt="{{ $menu->nama_makanan }}" class="w-40 h-full object-cover rounded-lg">
+                    </div>
                     <h2 class="h2 font-bold mt-2 text-center">{{ $menu->nama_makanan }}</h2>
                     <p class="h3 pb-1">Rp {{ number_format($menu->harga, 0, ',', '.') }}</p>
                     <button 
