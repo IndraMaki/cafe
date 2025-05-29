@@ -25,8 +25,11 @@ class LoginGController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nomor_hp' => 'required|string|max:15',
+            'nomor_hp' => 'required|numeric|digits_between:10,15',
             'nomor_meja' => 'required|integer',
+        ], [
+        'nomor_hp.numeric' => 'Nomor HP harus berupa angka.',
+        'nomor_hp.digits_between' => 'Nomor HP harus terdiri dari 10 sampai 15 digit.',
         ]);
     
         // Simpan data ke session, pastikan nomor meja di-update

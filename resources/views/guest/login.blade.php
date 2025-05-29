@@ -26,7 +26,13 @@
                 placeholder="08xxxxxxxxxx"
                 class="w-auto border-b border-gray-400 bg-transparent text-center text-gray-300 text-base tracking-widest focus:outline-none"
                 required
+                inputmode="numeric"
             >
+            @if ($errors->has('nomor_hp'))
+                <div class="text-red-500 text-sm mt-2">
+                    {{ $errors->first('nomor_hp') }}
+                </div>
+            @endif
 
             <button type="submit" class="w-10/12 mt-6 bg-nf-sixth text-white text-base font-semibold py-2 rounded-full hover:bg-gray-700 transition">
                 Submit
