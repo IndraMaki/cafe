@@ -4,51 +4,35 @@ namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Menu;
-use App\Models\Kategori;
 
 class LoginGController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        // Cek apakah session 'nomor_meja' sudah ada, jika belum baru set
-        if (!session()->has('nomor_meja')) {
-            $nomor_meja = $request->query('nomor_meja');
-            session(['nomor_meja' => $nomor_meja]);
-        } else {
-            $nomor_meja = session('nomor_meja');
-        }
-
-        return view('guest.login', compact('nomor_meja'));
+        // Tidak perlu session nomor_meja lagi
+        return view('guest.login');
     }
-    
+
     public function store(Request $request)
     {
         $request->validate([
             'nomor_hp' => 'required|numeric|digits_between:10,15',
-            'nomor_meja' => 'required|integer',
         ], [
-        'nomor_hp.numeric' => 'Nomor HP harus berupa angka.',
-        'nomor_hp.digits_between' => 'Nomor HP harus terdiri dari 10 sampai 15 digit.',
+            'nomor_hp.numeric' => 'Nomor HP harus berupa angka.',
+            'nomor_hp.digits_between' => 'Nomor HP harus terdiri dari 10 sampai 15 digit.',
         ]);
-    
-        // Simpan data ke session, pastikan nomor meja di-update
-        session([
-            'nomor_hp' => $request->nomor_hp,
-            'nomor_meja' => $request->nomor_meja, // Update nomor meja
-        ]);
-    
+
+        // Simpan nomor_hp di session saja
+        session(['nomor_hp' => $request->nomor_hp]);
+
         return redirect()->route('guest.home');
     }
-    
+
     public function logout()
     {
-        // Hapus semua session
-        session()->forget(['nomor_hp', 'nomor_meja', 'cart']);
-    
-        // Tampilkan halaman info logout
-        return view('guest.logoutinfo'); 
-    }
-    
+        // Hapus session nomor_hp dan cart (kalau ada)
+        session()->forget(['nomor_hp', 'cart']);
 
+        return view('guest.logoutinfo');
+    }
 }

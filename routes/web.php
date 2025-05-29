@@ -29,9 +29,11 @@ Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 
 // Login Guest
+// Guest Login
 Route::get('/login', [LoginGController::class, 'index'])->name('guest.login');
 Route::post('/login', [LoginGController::class, 'store'])->name('guest.login.store');
 Route::get('/logout', [LoginGController::class, 'logout'])->name('guest.logout');
+
 
 // Halaman keranjang
 Route::get('/keranjang', [KeranjangController::class, 'index'])->name('guest.keranjang.index');
