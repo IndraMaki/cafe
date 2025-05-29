@@ -3,11 +3,6 @@
 @section('title', "| Home")
 
 @section('content')
-@if(session('nomor_meja'))
-    <div class="hidden bg-blue-100 text-center py-2 rounded-md mb-4">
-        Nomor Meja Anda: <strong>{{ session('nomor_meja') }}</strong>
-    </div>
-@endif
 
 @if(session('nomor_hp'))
     <div class="hidden text-sm text-gray-600 text-center">
