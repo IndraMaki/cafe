@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User; // pakai model User
 
 class LoginGController extends Controller
 {
     public function index()
     {
-        // Tidak perlu session nomor_meja lagi
         return view('guest.login');
     }
 
@@ -22,17 +22,20 @@ class LoginGController extends Controller
             'nomor_hp.digits_between' => 'Nomor HP harus terdiri dari 10 sampai 15 digit.',
         ]);
 
-        // Simpan nomor_hp di session saja
-        session(['nomor_hp' => $request->nomor_hp]);
+        $nomor_hp = $request->nomor_hp;
+
+        // Simpan ke session
+        session(['nomor_hp' => $nomor_hp]);
+
+        // Simpan ke tabel users jika belum ada
+        User::firstOrCreate(['nomor_hp' => $nomor_hp]);
 
         return redirect()->route('guest.home');
     }
 
     public function logout()
     {
-        // Hapus session nomor_hp dan cart (kalau ada)
         session()->forget(['nomor_hp', 'cart']);
-
         return view('guest.logoutinfo');
     }
 }
