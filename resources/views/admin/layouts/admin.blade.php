@@ -34,11 +34,11 @@
           Kategori
         </a>
   
-        <a href="{{ route('admin.meja.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg 
+        <!-- <a href="{{ route('admin.meja.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg 
             {{ Route::is('admin.meja.index') ? 'bg-[#F8B602] font-semibold' :'hover:bg-[#4a0011] transition'}}">
           <img src="/assets/img/ic-meja.png" alt="Meja" class="w-6 h-6">
           Meja
-        </a>
+        </a> -->
   
         <a href="{{ route('admin.menu.index') }}" class="flex items-center gap-3 px-4 py-3 transition rounded-lg 
             {{ Route::is('admin.menu.index') ? 'bg-[#F8B602] font-semibold' :'hover:bg-[#4a0011] transition'}}">

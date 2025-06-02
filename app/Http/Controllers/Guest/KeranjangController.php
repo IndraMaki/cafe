@@ -8,15 +8,18 @@ use App\Models\Menu;
 use App\Models\Kategori;
 use App\Models\Pesanan;
 use App\Models\DetailPesanan;
+use Midtrans\Snap;
+use Midtrans\Config;
+
 
 class KeranjangController extends Controller
 {
     public function addToCart(Request $request)
     {
-        $nomorMeja = session('nomor_meja');
+        $nomor_hp = session('nomor_hp');
 
 
-        $cartKey = "cart_$nomorMeja";
+        $cartKey = "cart_$nomor_hp";
         $cart = session()->get($cartKey, []);
         
         $id = $request->id;
@@ -42,10 +45,10 @@ class KeranjangController extends Controller
 
     public function index()
     {
-        $nomorMeja = session('nomor_meja');
+        $nomor_hp = session('nomor_hp');
 
 
-        $cartKey = "cart_$nomorMeja";
+        $cartKey = "cart_$nomor_hp";
         $cart = session()->get($cartKey, []);
 
         $totalItems = array_sum(array_column($cart, 'quantity'));
@@ -53,28 +56,24 @@ class KeranjangController extends Controller
             return $carry + ($item['price'] * $item['quantity']);
         }, 0);
 
-        return view('guest.keranjang', compact('cart', 'totalItems', 'totalPrice', 'nomorMeja'));
+        return view('guest.keranjang', compact('cart', 'totalItems', 'totalPrice', 'nomor_hp'));
     }
 
     public function pesan(Request $request)
     {
-        $nomor_meja = session('nomor_meja');
         $nomor_hp = session('nomor_hp');
-
-        $cartKey = "cart_$nomor_meja";
-        $cart = session($cartKey, []);
+        $cart = session("cart_$nomor_hp", []);
 
         \Log::info('Cart:', $cart);
-        \Log::info('Nomor Meja: ' . $nomor_meja);
         \Log::info('Nomor HP: ' . $nomor_hp);
 
         if (empty($cart)) {
             return redirect()->back()->with('error', 'Keranjang kosong.');
         }
 
-        // Simpan ke database
+        
+        
         $pesanan = Pesanan::create([
-            'nomor_meja' => $nomor_meja,
             'nomor_hp' => $nomor_hp,
             'status' => 'pending',
         ]);
@@ -88,16 +87,27 @@ class KeranjangController extends Controller
             ]);
         }
 
-        // Kosongkan keranjang
-        session()->forget($cartKey);
+        session()->forget("cart_$nomor_hp");
 
         return redirect('/done')->with('success', 'Pesanan berhasil dikirim');
     }
+
+
+    // public function saveCart(Request $request)
+    // {
+    //     $nomor_hp = $request->input('nomor_hp');
+    //     $cart = $request->input('cart');
+
+    //     session()->put("cart_$nomor_hp", $cart);
+    //     return response()->json(['success' => true]);
+    // }
+
+    
     // Tambah jumlah item
     public function increaseQuantity(Request $request)
     {
-        $nomorMeja = session('nomor_meja');
-        $cartKey = "cart_$nomorMeja";
+        $nomor_hp = session('nomor_hp');
+        $cartKey = "cart_$nomor_hp";
         $cart = session()->get($cartKey, []);
         
         $id = $request->id;
@@ -113,8 +123,8 @@ class KeranjangController extends Controller
     // Kurangi jumlah item
     public function decreaseQuantity(Request $request)
     {
-        $nomorMeja = session('nomor_meja');
-        $cartKey = "cart_$nomorMeja";
+        $nomor_hp = session('nomor_hp');
+        $cartKey = "cart_$nomor_hp";
         $cart = session()->get($cartKey, []);
         
         $id = $request->id;
@@ -134,8 +144,8 @@ class KeranjangController extends Controller
     // Hapus item dari cart
     public function removeFromCart(Request $request)
     {
-        $nomorMeja = session('nomor_meja');
-        $cartKey = "cart_$nomorMeja";
+        $nomor_hp = session('nomor_hp');
+        $cartKey = "cart_$nomor_hp";
         $cart = session()->get($cartKey, []);
 
         $id = $request->id;
@@ -150,6 +160,52 @@ class KeranjangController extends Controller
 
 
 
+
+    public function pesanMidtrans(Request $request)
+    {
+        $nomor_hp = session('nomor_hp');
+        $cart = session("cart_$nomor_hp", []);
+
+        if (empty($cart)) {
+            return response()->json(['error' => 'Keranjang kosong'], 400);
+        }
+
+        // Buat pesanan dulu
+        $pesanan = Pesanan::create([
+            'nomor_hp' => $nomor_hp,
+            'status' => 'pending', // akan diupdate kalau berhasil bayar
+        ]);
+
+        $total = 0;
+        foreach ($cart as $item) {
+            $total += $item['price'] * $item['quantity'];
+            DetailPesanan::create([
+                'pesanan_id' => $pesanan->id,
+                'nama_menu' => $item['name'],
+                'harga' => $item['price'],
+                'jumlah' => $item['quantity'],
+            ]);
+        }
+
+        session()->forget("cart_$nomor_hp");
+
+        // Konfigurasi Midtrans
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = false;
+
+        $payload = [
+            'transaction_details' => [
+                'order_id' => 'ORDER-' . $pesanan->id . '-' . time(),
+                'gross_amount' => $total,
+            ],
+            'customer_details' => [
+                'first_name' => $nomor_hp,
+            ],
+        ];
+
+        $snapToken = Snap::getSnapToken($payload);
+        return response()->json(['snap_token' => $snapToken]);
+    }
 
 
 }

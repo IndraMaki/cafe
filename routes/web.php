@@ -42,7 +42,8 @@ Route::post('/keranjang/pesan', [KeranjangController::class, 'pesan'])->name('ke
 Route::post('/cart/increase', [App\Http\Controllers\Guest\KeranjangController::class, 'increaseQuantity'])->name('cart.increase');
 Route::post('/cart/decrease', [App\Http\Controllers\Guest\KeranjangController::class, 'decreaseQuantity'])->name('cart.decrease');
 Route::post('/cart/remove', [App\Http\Controllers\Guest\KeranjangController::class, 'removeFromCart'])->name('cart.remove');
-
+Route::post('/cart/save', [KeranjangController::class, 'saveCart'])->name('cart.save');
+Route::post('/keranjang/pesan-midtrans', [KeranjangController::class, 'pesanMidtrans'])->name('keranjang.pesan.midtrans');
 
 
 // Halaman done dan detail

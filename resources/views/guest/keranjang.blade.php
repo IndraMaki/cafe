@@ -15,10 +15,10 @@
             </div>
           
             <!-- Nomor Meja -->
-            <div class="bg-white py-2 px-4 flex justify-between items-center">
+            <!-- <div class="bg-white py-2 px-4 flex justify-between items-center">
                 <span class="text-gray-500 text-sm">Nomor Meja</span>
                 <span class="text-green-500 font-bold text-sm">{{ session('nomor_meja') ?? '-' }}</span>
-            </div>
+            </div> -->
             <div class="hidden bg-white py-2 px-4 flex justify-between items-center">
                 <span class="text-gray-500 text-sm">Nomor HP</span>
                 <span class="text-blue-500 font-bold text-sm">{{ session('nomor_hp') ?? '-' }}</span>
@@ -74,36 +74,91 @@
                     <span>Total Pesanan</span>
                     <span>Rp {{ number_format($totalPrice ?? 0, 0, ',', '.') }}</span>
                 </div>
-                <form action="{{ route('keranjang.pesan') }}" method="POST">
+                <p>Session nomor_hp: {{ session('nomor_hp') }}</p>
+                <form action="{{ route('keranjang.pesan.midtrans') }}" method="POST">
                     @csrf
-                    <button type="submit" class="block w-full bg-white text-center text-black font-semibold py-3 rounded-full">
+                    <!-- <input type="hidden" name="nomor_hp" value="{{ session('nomor_hp') }}"> -->
+                    <button type="button" onclick="showPaymentOptions()" class="block w-full bg-white text-center text-black font-semibold py-3 rounded-full">
                         Pesan Sekarang
                     </button>
+
+                    <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden">
+                        <div class="bg-white p-6 rounded-lg max-w-sm text-center space-y-4">
+                            <h2 class="text-lg font-bold">Pilih Metode Pembayaran</h2>
+                            <button type="button" onclick="bayarDiKasir()" class="w-full bg-gray-800 text-white py-2 rounded">Bayar di Kasir</button>
+                            <button type="button" onclick="bayarOnline()" class="w-full bg-yellow-500 text-black py-2 rounded">Bayar Online</button>
+                            <button type="button" onclick="closeModal()" class="text-sm text-gray-500 mt-2">Batal</button>
+                        </div>
+                    </div>
                 </form>
 
             </div>
         </div>          
     </div>
 </body>
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const cartData = JSON.parse(localStorage.getItem('cart')) || [];
-        const container = document.getElementById('cart-items');
-        if (cartData.length === 0) {
-            container.innerHTML = '<p class="text-center text-gray-500">Keranjang kosong.</p>';
-        } else {
-            cartData.forEach(item => {
-                const el = document.createElement('div');
-                el.className = 'p-4 border-b';
-                el.innerHTML = `
-                    <h3 class="font-bold">${item.name}</h3>
-                    <p>Harga: Rp ${parseInt(item.price).toLocaleString('id-ID')}</p>
-                    <p>Jumlah: ${item.qty}</p>
-                `;
-                container.appendChild(el);
+    function showPaymentOptions() {
+        document.getElementById('payment-modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('payment-modal').classList.add('hidden');
+    }
+
+    function bayarDiKasir() {
+        fetch("{{ route('keranjang.pesan') }}", {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            }
+        }).then(() => {
+            window.location.href = "/done";
+        });
+    }
+
+    function bayarOnline() {
+        fetch("{{ route('keranjang.pesan.midtrans') }}", {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+            }
+        }).then(response => response.json())
+        .then(data => {
+            // Midtrans snap token
+            snap.pay(data.snap_token, {
+                onSuccess: function(result) {
+                    window.location.href = "/done";
+                },
+                onPending: function(result) {
+                    alert("Pembayaran pending.");
+                },
+                onError: function(result) {
+                    alert("Pembayaran gagal.");
+                }
             });
-        }
-    });
+        });
+    }
+</script>
+<script>
+    // document.addEventListener('DOMContentLoaded', () => {
+    //     const cartData = JSON.parse(localStorage.getItem('cart')) || [];
+    //     const container = document.getElementById('cart-items');
+    //     if (cartData.length === 0) {
+    //         container.innerHTML = '<p class="text-center text-gray-500">Keranjang kosong.</p>';
+    //     } else {
+    //         cartData.forEach(item => {
+    //             const el = document.createElement('div');
+    //             el.className = 'p-4 border-b';
+    //             el.innerHTML = `
+    //                 <h3 class="font-bold">${item.name}</h3>
+    //                 <p>Harga: Rp ${parseInt(item.price).toLocaleString('id-ID')}</p>
+    //                 <p>Jumlah: ${item.qty}</p>
+    //             `;
+    //             container.appendChild(el);
+    //         });
+    //     }
+    // });
     function increaseQuantity(id) {
     fetch("{{ route('cart.increase') }}", {
         method: "POST",
@@ -156,4 +211,27 @@ function removeFromCart(id) {
     }
 }
 </script>
+<!-- <script>
+document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault(); // tahan submit form
+
+    const nomor_hp = "{{ session('nomor_hp') }}";
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    fetch("{{ route('cart.save') }}", {
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}",
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ cart: cart, nomor_hp: nomor_hp })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            event.target.submit(); // kirim form setelah cart disimpan
+        }
+    });
+});
+</script> -->
 @endsection
