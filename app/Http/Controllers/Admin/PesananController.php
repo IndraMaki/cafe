@@ -23,16 +23,27 @@ class PesananController extends Controller
     
 
 
-
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $pesanan = Pesanan::findOrFail($id);
         $pesanan->status = 'selesai';
-        $pesanan->tanggal_selesai = Carbon::now(); // Menyimpan waktu sekarang
+        $pesanan->tanggal_selesai = Carbon::now();
+        $pesanan->metode_pembayaran = $request->metode_pembayaran;
+
+        if ($request->metode_pembayaran === 'Tunai') {
+            $pesanan->nominal_bayar = $request->uang_tunai;
+        } else {
+            $totalHarga = $pesanan->detailPesanan->sum(fn($detail) => $detail->harga * $detail->jumlah);
+            $pesanan->nominal_bayar = $totalHarga;
+        }
+
         $pesanan->save();
-    
-        return redirect()->back()->with('success', 'Pesanan telah diselesaikan.');
+
+        return redirect()->back()->with('success', 'Pesanan telah diselesaikan dengan pembayaran ' . $request->metode_pembayaran . '.');
     }
+
+
+
     
     public function history()
     {
@@ -48,7 +59,7 @@ class PesananController extends Controller
                 'harga' => $pesanan->detailPesanan->sum(function ($detail) {
                     return $detail->harga * $detail->jumlah;
                 }),
-                'tanggal_selesai' => $pesanan->updated_at, // Misalnya pakai updated_at
+                'tanggal_selesai' => $pesanan->updated_at, 
             ];
         });    
 

@@ -9,7 +9,6 @@
             <thead class="bg-gray-50 text-gray-600 uppercase text-xs font-semibold">
                 <tr>
                     <th class="px-4 py-3 text-left">ID</th>
-                    <th class="px-4 py-3 text-left">Nomor Meja</th>
                     <th class="px-4 py-3 text-left">Nomor Telp</th>
                     <th class="px-4 py-3 text-left">Pesanan</th>
                     <th class="px-4 py-3 text-left">Total Harga</th>
@@ -20,7 +19,6 @@
                 @forelse ($menus as $menu)
                 <tr class="bg-white hover:bg-gray-50 transition">
                     <td class="px-4 py-2">{{ $menu->id }}</td>
-                    <td class="px-4 py-2">{{ $menu->nomor_meja }}</td>
                     <td class="px-4 py-2">{{ $menu->nomor_hp }}</td>
                     <td class="px-4 py-2">{{ $menu->nama_makanan }}</td>
                     <td class="px-4 py-2">Rp {{ number_format($menu->harga, 0, ',', '.') }}</td>
