@@ -97,6 +97,7 @@
                 <tr>
                     <td colspan="6" class="text-center py-4 text-gray-500">Tidak ada pesanan.</td>
                 </tr>
+
                 @endforelse
             </tbody>
         </table>
@@ -154,6 +155,8 @@
         }
         return true;
     }
-
+    setTimeout(() => {
+        window.location.reload();
+    }, 4000); // reload tiap 4 detik
 </script>
 @endsection

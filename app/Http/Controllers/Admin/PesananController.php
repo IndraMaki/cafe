@@ -42,8 +42,6 @@ class PesananController extends Controller
         return redirect()->back()->with('success', 'Pesanan telah diselesaikan dengan pembayaran ' . $request->metode_pembayaran . '.');
     }
 
-
-
     
     public function history()
     {
