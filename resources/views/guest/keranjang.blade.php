@@ -125,40 +125,36 @@
             }
         }).then(response => response.json())
         .then(data => {
-            // Midtrans snap token
             snap.pay(data.snap_token, {
                 onSuccess: function(result) {
-                    window.location.href = "/done";
+                    // Kirim order_id ke backend untuk simpan pesanan
+                    fetch("{{ route('keranjang.pesanan.sukses') }}", {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ order_id: data.order_id })
+                    }).then(() => {
+                        window.location.href = "/done";
+                    });
                 },
                 onPending: function(result) {
+                    // Bisa juga dikirim kalau kamu mau catat pending
                     alert("Pembayaran pending.");
                 },
                 onError: function(result) {
                     alert("Pembayaran gagal.");
+                },
+                onClose: function() {
+                    alert("Pembayaran dibatalkan.");
                 }
             });
         });
     }
+
 </script>
 <script>
-    // document.addEventListener('DOMContentLoaded', () => {
-    //     const cartData = JSON.parse(localStorage.getItem('cart')) || [];
-    //     const container = document.getElementById('cart-items');
-    //     if (cartData.length === 0) {
-    //         container.innerHTML = '<p class="text-center text-gray-500">Keranjang kosong.</p>';
-    //     } else {
-    //         cartData.forEach(item => {
-    //             const el = document.createElement('div');
-    //             el.className = 'p-4 border-b';
-    //             el.innerHTML = `
-    //                 <h3 class="font-bold">${item.name}</h3>
-    //                 <p>Harga: Rp ${parseInt(item.price).toLocaleString('id-ID')}</p>
-    //                 <p>Jumlah: ${item.qty}</p>
-    //             `;
-    //             container.appendChild(el);
-    //         });
-    //     }
-    // });
     function increaseQuantity(id) {
     fetch("{{ route('cart.increase') }}", {
         method: "POST",
@@ -211,27 +207,4 @@ function removeFromCart(id) {
     }
 }
 </script>
-<!-- <script>
-document.querySelector('form').addEventListener('submit', function(event) {
-    event.preventDefault(); // tahan submit form
-
-    const nomor_hp = "{{ session('nomor_hp') }}";
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    fetch("{{ route('cart.save') }}", {
-        method: "POST",
-        headers: {
-            'X-CSRF-TOKEN': "{{ csrf_token() }}",
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ cart: cart, nomor_hp: nomor_hp })
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            event.target.submit(); // kirim form setelah cart disimpan
-        }
-    });
-});
-</script> -->
 @endsection

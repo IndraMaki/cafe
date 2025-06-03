@@ -170,15 +170,55 @@ class KeranjangController extends Controller
             return response()->json(['error' => 'Keranjang kosong'], 400);
         }
 
-        // Buat pesanan dulu
-        $pesanan = Pesanan::create([
-            'nomor_hp' => $nomor_hp,
-            'status' => 'pending', // akan diupdate kalau berhasil bayar
-        ]);
-
         $total = 0;
         foreach ($cart as $item) {
             $total += $item['price'] * $item['quantity'];
+        }
+
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = false;
+
+        $orderId = 'ORDER-' . time();
+
+        $payload = [
+            'transaction_details' => [
+                'order_id' => $orderId,
+                'gross_amount' => $total,
+            ],
+            'customer_details' => [
+                'first_name' => $nomor_hp,
+            ],
+        ];
+
+        $snapToken = Snap::getSnapToken($payload);
+
+        // Simpan sementara data di session
+        session()->put("cart_token_$orderId", [
+            'cart' => $cart,
+            'nomor_hp' => $nomor_hp,
+        ]);
+
+        return response()->json(['snap_token' => $snapToken, 'order_id' => $orderId]);
+    }
+
+    public function pesananSukses(Request $request)
+    {
+        $orderId = $request->order_id;
+        $sessionData = session("cart_token_$orderId");
+
+        if (!$sessionData) {
+            return response()->json(['error' => 'Data tidak ditemukan.'], 400);
+        }
+
+        $nomor_hp = $sessionData['nomor_hp'];
+        $cart = $sessionData['cart'];
+
+        $pesanan = Pesanan::create([
+            'nomor_hp' => $nomor_hp,
+            'status' => 'pending', // Bisa kamu sesuaikan
+        ]);
+
+        foreach ($cart as $item) {
             DetailPesanan::create([
                 'pesanan_id' => $pesanan->id,
                 'nama_menu' => $item['name'],
@@ -188,23 +228,9 @@ class KeranjangController extends Controller
         }
 
         session()->forget("cart_$nomor_hp");
+        session()->forget("cart_token_$orderId");
 
-        // Konfigurasi Midtrans
-        Config::$serverKey = config('midtrans.server_key');
-        Config::$isProduction = false;
-
-        $payload = [
-            'transaction_details' => [
-                'order_id' => 'ORDER-' . $pesanan->id . '-' . time(),
-                'gross_amount' => $total,
-            ],
-            'customer_details' => [
-                'first_name' => $nomor_hp,
-            ],
-        ];
-
-        $snapToken = Snap::getSnapToken($payload);
-        return response()->json(['snap_token' => $snapToken]);
+        return response()->json(['success' => true]);
     }
 
 
