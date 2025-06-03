@@ -14,10 +14,6 @@
             </p>
         </div>
         <div class="p-4 bg-white rounded shadow-md text-center">
-            <h2 class="text-sm font-medium text-gray-500">Total Meja</h2>
-            <p class="text-xl font-semibold text-gray-700">{{ $totalMeja }}</p>
-        </div>
-        <div class="p-4 bg-white rounded shadow-md text-center">
             <h2 class="text-sm font-medium text-gray-500">Banyaknya Pengunjung</h2>
             <p class="text-xl font-semibold text-gray-700">{{ $totalPengunjung }}</p>
         </div>
