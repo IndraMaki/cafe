@@ -157,6 +157,6 @@
     }
     setTimeout(() => {
         window.location.reload();
-    }, 20000); // reload tiap 4 detik
+    }, 30000); 
 </script>
 @endsection

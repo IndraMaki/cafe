@@ -58,6 +58,7 @@ class PesananController extends Controller
                     return $detail->harga * $detail->jumlah;
                 }),
                 'tanggal_selesai' => $pesanan->updated_at, 
+                'metode_pembayaran' =>$pesanan->metode_pembayaran,
             ];
         });    
 
