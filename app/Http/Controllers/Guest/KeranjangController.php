@@ -215,7 +215,7 @@ class KeranjangController extends Controller
 
         $pesanan = Pesanan::create([
             'nomor_hp' => $nomor_hp,
-            'status' => 'pending', // Bisa kamu sesuaikan
+            'status' => 'selesai', // Bisa kamu sesuaikan
         ]);
 
         foreach ($cart as $item) {
