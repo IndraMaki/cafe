@@ -44,8 +44,6 @@
                 <div id="payment-modal-{{ $menu->id }}" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center px-4">
                     <div class="bg-white p-6 rounded-lg w-full max-w-lg max-h-[90vh] overflow-auto">
                         <h3 class="text-xl font-bold mb-4">Detail Pesanan (ID: {{ $menu->id }})</h3>
-
-                        <p><strong>Meja:</strong> {{ $menu->nomor_meja }}</p>
                         <p><strong>No. Telp:</strong> {{ $menu->nomor_hp }}</p>
 
                         <div class="mt-4 font-semibold">Daftar Menu:</div>
