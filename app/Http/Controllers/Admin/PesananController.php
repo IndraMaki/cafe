@@ -8,6 +8,7 @@ use App\Models\Pesanan;
 use App\Models\DetailPesanan;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PesananController extends Controller
 {
@@ -43,12 +44,20 @@ class PesananController extends Controller
     }
 
     
-    public function history()
+    public function history(Request $request)
     {
-        $menus = Pesanan::with('detailPesanan')
-        ->where('status', 'selesai')
-        ->get()
-        ->map(function ($pesanan) {
+        $query = Pesanan::with('detailPesanan')
+            ->where('status', 'selesai');
+
+        if ($request->filled('tanggal_awal')) {
+            $query->whereDate('updated_at', '>=', $request->tanggal_awal);
+        }
+
+        if ($request->filled('tanggal_akhir')) {
+            $query->whereDate('updated_at', '<=', $request->tanggal_akhir);
+        }
+
+        $menus = $query->get()->map(function ($pesanan) {
             return (object)[
                 'id' => $pesanan->id,
                 'nama_makanan' => $pesanan->detailPesanan->pluck('nama_menu')->implode(', '),
@@ -57,12 +66,25 @@ class PesananController extends Controller
                 'harga' => $pesanan->detailPesanan->sum(function ($detail) {
                     return $detail->harga * $detail->jumlah;
                 }),
-                'tanggal_selesai' => $pesanan->updated_at, 
-                'metode_pembayaran' =>$pesanan->metode_pembayaran,
+                'tanggal_selesai' => $pesanan->updated_at,
+                'metode_pembayaran' => $pesanan->metode_pembayaran,
             ];
-        });    
+        });
 
         return view('admin.orderhistory', compact('menus'));
+    }
+
+    public function cetakStruk($id)
+    {
+        $pesanan = Pesanan::with('detailPesanan')->findOrFail($id);
+
+        $data = [
+            'pesanan' => $pesanan,
+            'total' => $pesanan->detailPesanan->sum(fn($d) => $d->harga * $d->jumlah),
+        ];
+
+        $pdf = Pdf::loadView('admin.struk', $data);
+        return $pdf->stream("Struk-{$pesanan->id}.pdf"); // bisa juga ->download()
     }
 
 }
