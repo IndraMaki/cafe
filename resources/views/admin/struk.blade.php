@@ -10,10 +10,11 @@
     </style>
 </head>
 <body>
-    <h2>Struk Pesanan #{{ $pesanan->id }}</h2>
+    <p>Tanggal: {{ \Carbon\Carbon::parse($pesanan->updated_at)->format('d M Y H:i') }}</p>
+    <h2>Struk Pesanan</h2>
+    <p><strong>Order ID:</strong> {{ $pesanan->id }}</p>
     <p>Nomor HP: {{ $pesanan->nomor_hp }}</p>
     <p>Metode Pembayaran: {{ $pesanan->metode_pembayaran }}</p>
-    <p>Tanggal: {{ \Carbon\Carbon::parse($pesanan->updated_at)->format('d M Y H:i') }}</p>
 
     <table>
         <thead>
@@ -36,6 +37,12 @@
         </tbody>
     </table>
 
-    <h3>Total: Rp {{ number_format($total, 0, ',', '.') }}</h3>
+    @if (strtolower($pesanan->metode_pembayaran) === 'tunai')
+        <p>Nominal Bayar: Rp {{ number_format($pesanan->nominal_bayar, 0, ',', '.') }}</p>
+        <p>Total Harga: Rp {{ number_format($total, 0, ',', '.') }}</p>
+        <p><strong>Kembalian: Rp {{ number_format($pesanan->nominal_bayar - $total, 0, ',', '.') }}</strong></p>
+    @else
+        <h3>Total: Rp {{ number_format($total, 0, ',', '.') }}</h3>
+    @endif
 </body>
 </html>
