@@ -127,20 +127,22 @@
         .then(data => {
             snap.pay(data.snap_token, {
                 onSuccess: function(result) {
-                    // Kirim order_id ke backend untuk simpan pesanan
+                    // Kirim order_id + payment_type ke backend
                     fetch("{{ route('keranjang.pesanan.sukses') }}", {
                         method: 'POST',
                         headers: {
                             'X-CSRF-TOKEN': "{{ csrf_token() }}",
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ order_id: data.order_id })
+                        body: JSON.stringify({
+                            order_id: data.order_id,
+                            payment_type: result.payment_type
+                        })
                     }).then(() => {
                         window.location.href = "/done";
                     });
                 },
                 onPending: function(result) {
-                    // Bisa juga dikirim kalau kamu mau catat pending
                     alert("Pembayaran pending.");
                 },
                 onError: function(result) {
@@ -152,6 +154,7 @@
             });
         });
     }
+
 
 </script>
 <script>

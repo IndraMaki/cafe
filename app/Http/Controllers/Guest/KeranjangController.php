@@ -207,6 +207,7 @@ class KeranjangController extends Controller
     {
         $orderId = $request->order_id;
         $sessionData = session("cart_token_$orderId");
+        $paymentType = $request->payment_type ?? 'Midtrans';
 
         if (!$sessionData) {
             return response()->json(['error' => 'Data tidak ditemukan.'], 400);
@@ -219,7 +220,7 @@ class KeranjangController extends Controller
 
         $pesanan = Pesanan::create([
             'nomor_hp' => $nomor_hp,
-            'metode_pembayaran' => 'Midtrans',
+            'metode_pembayaran' => $paymentType,
             'status' => 'selesai',
             'nominal_bayar' => $nominal,
             'tanggal_selesai' => $tanggal_selesai, // Bisa kamu sesuaikan
