@@ -85,8 +85,9 @@ class PesananController extends Controller
             'total' => $pesanan->detailPesanan->sum(fn($d) => $d->harga * $d->jumlah),
         ];
 
-        $pdf = Pdf::loadView('admin.struk', $data);
-        return $pdf->stream("Struk-{$pesanan->id}.pdf"); // bisa juga ->download()
+        return view('admin.struk', $data);
+        // $pdf = Pdf::loadView('admin.struk', $data);
+        // return $pdf->stream("Struk-{$pesanan->id}.pdf"); // bisa juga ->download()
     }
 
 }
