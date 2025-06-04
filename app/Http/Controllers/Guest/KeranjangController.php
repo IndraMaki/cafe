@@ -10,6 +10,7 @@ use App\Models\Pesanan;
 use App\Models\DetailPesanan;
 use Midtrans\Snap;
 use Midtrans\Config;
+use Carbon\Carbon;
 
 
 class KeranjangController extends Controller
@@ -196,6 +197,7 @@ class KeranjangController extends Controller
         session()->put("cart_token_$orderId", [
             'cart' => $cart,
             'nomor_hp' => $nomor_hp,
+            'total' => $total,
         ]);
 
         return response()->json(['snap_token' => $snapToken, 'order_id' => $orderId]);
@@ -212,10 +214,15 @@ class KeranjangController extends Controller
 
         $nomor_hp = $sessionData['nomor_hp'];
         $cart = $sessionData['cart'];
+        $nominal = $sessionData['total'];
+        $tanggal_selesai = Carbon::now();
 
         $pesanan = Pesanan::create([
             'nomor_hp' => $nomor_hp,
-            'status' => 'selesai', // Bisa kamu sesuaikan
+            'metode_pembayaran' => 'Midtrans',
+            'status' => 'selesai',
+            'nominal_bayar' => $nominal,
+            'tanggal_selesai' => $tanggal_selesai, // Bisa kamu sesuaikan
         ]);
 
         foreach ($cart as $item) {
