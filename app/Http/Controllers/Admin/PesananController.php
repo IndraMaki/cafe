@@ -68,8 +68,10 @@ class PesananController extends Controller
                 }),
                 'tanggal_selesai' => $pesanan->updated_at,
                 'metode_pembayaran' => $pesanan->metode_pembayaran,
+                'detailPesanan' => $pesanan->detailPesanan, 
             ];
         });
+
 
         return view('admin.orderhistory', compact('menus'));
     }
