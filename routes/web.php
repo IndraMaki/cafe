@@ -50,7 +50,8 @@ Route::post('/keranjang/pesanan-sukses', [KeranjangController::class, 'pesananSu
 
 // Halaman done dan detail
 Route::get('/done', [DoneController::class, 'index'])->name('guest.done');
-Route::get('/detail-pesanan', [DetailController::class, 'index'])->name('guest.detail-pesanan');
+Route::get('/detail-pesanan', [PesananController::class, 'detailPesananUser'])->name('guest.detail-pesanan');
+
 
 /*
 |--------------------------------------------------------------------------

@@ -90,4 +90,21 @@ class PesananController extends Controller
         // return $pdf->stream("Struk-{$pesanan->id}.pdf"); // bisa juga ->download()
     }
 
+    public function detailPesananUser()
+    {
+    $nomor_hp = session('nomor_hp'); // Ambil dari session login
+
+    if (!$nomor_hp) {
+        return redirect('/login')->with('error', 'Silakan login terlebih dahulu');
+    }
+
+    $pesanan = Pesanan::with('detailPesanan')
+        ->where('nomor_hp', $nomor_hp)
+        ->orderByDesc('created_at')
+        ->get();
+
+    return view('guest.detail-pesanan', compact('pesanan'));
+    }
+
+
 }
