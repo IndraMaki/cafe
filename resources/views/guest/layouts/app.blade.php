@@ -17,7 +17,7 @@
 </head>
 
 <body class="guest bg-nf-second">
-    <div class="container mx-auto max-w-screen-2xl min-h-screen bg-nf-primary">
+    <div class="container mx-auto max-w-screen-2xl min-h-screen bg-nf-primary relative"> 
         @yield('content')
     </div>
 

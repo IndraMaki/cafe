@@ -73,7 +73,7 @@
 
     <p><strong>Order ID:</strong> {{ $pesanan->id }}</p>
     <p><strong>Nomor HP:</strong> {{ $pesanan->nomor_hp }}</p>
-    
+    <p><strong>Metode Pembayaran:</strong> {{ $pesanan->metode_pembayaran }}</p>
 
     <hr>
 
