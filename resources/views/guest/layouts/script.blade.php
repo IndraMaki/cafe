@@ -94,10 +94,14 @@
                 })
                 .then(res => res.json())
                 .then(data => {
+                    // Tampilkan pesan
                     alert(data.message);
+                    // Refresh halaman
+                    window.location.reload();
                 })
                 .catch(err => {
-                    console.error(err);
+                    console.error('Error:', err);
+                    alert('Gagal menambahkan ke keranjang');
                 });
             }
         };

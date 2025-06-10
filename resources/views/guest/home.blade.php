@@ -32,17 +32,7 @@
 <script src="https://unpkg.com/alpinejs" defer></script>
 
 <!-- Atas -->
-<div class="py-6 px-5" x-data="cartHandler()" x-init="init()">
-<div class="cart-icon">
-    🛒
-    <span class="cart-count" id="cartCount">0</span>
-  </div>
-    <div x-data="{ show: false, message: '' }" x-show="show"
-        x-transition.duration.500ms
-        x-init="$watch('show', val => { if(val) setTimeout(() => show = false, 2000) })"
-        class="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 bg-green-600 text-white text-sm px-4 py-2 rounded shadow">
-        <span x-text="message"></span>
-    </div>
+<div class="py-6 px-5">
     <a href="/keranjang" class="fixed p-3 bg-yellow-500 rounded-xl shadow-lg z-50 bottom-0 mb-10" style="margin-left:275px;">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none">
             <path d="M17 18C15.89 18 15 18.89 15 20C15 20.5304 15.2107 21.0391 15.5858 21.4142C15.9609 21.7893 16.4696 
@@ -56,9 +46,6 @@
             21.0391 9 20.5304 9 20C9 19.4696 8.78929 18.9609 8.41421 18.5858C8.03914 18.2107 7.53043 18 7 18Z" 
             fill="#F8F8F8"/>
         </svg>
-        <span x-show="count > 0" x-text="count"
-            class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-        </span>
     </a>
     {{-- logout --}}
     <a class="flex overflow-x-auto items-center text-xs text-slate-50" href="{{ route('guest.logout') }}">
