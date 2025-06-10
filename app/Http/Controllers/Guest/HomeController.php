@@ -26,7 +26,18 @@ class HomeController extends Controller
         $nomor_hp = session('nomor_hp');
         $rekomendasi = $this->rekomendasi($nomor_hp);
 
-        return view('guest.home', compact('menus', 'groupedMenus', 'kategori', 'rekomendasi'));
+        $cartKey = "cart_$nomor_hp";
+        $cart = session()->get($cartKey, []);
+
+        $totalItems = array_sum(array_column($cart, 'quantity'));
+        $totalPrice = array_reduce($cart, function($carry, $item) {
+            return $carry + ($item['price'] * $item['quantity']);
+        }, 0);
+
+        return view('guest.home', compact('menus', 'groupedMenus', 'kategori', 'rekomendasi', 'cart',
+        'totalItems',
+        'totalPrice',
+        'nomor_hp'));
     }
 
     public function search(Request $request)

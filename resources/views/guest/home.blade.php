@@ -10,10 +10,39 @@
     </div>
 @endif
 
+<style>
+    .cart-icon {
+      position: relative;
+      display: inline-block;
+      font-size: 24px;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 12px;
+    }
+  </style>
+
 <script src="https://unpkg.com/alpinejs" defer></script>
 
 <!-- Atas -->
-<div class="py-6 px-5">
+<div class="py-6 px-5" x-data="cartHandler()" x-init="init()">
+<div class="cart-icon">
+    🛒
+    <span class="cart-count" id="cartCount">0</span>
+  </div>
+    <div x-data="{ show: false, message: '' }" x-show="show"
+        x-transition.duration.500ms
+        x-init="$watch('show', val => { if(val) setTimeout(() => show = false, 2000) })"
+        class="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 bg-green-600 text-white text-sm px-4 py-2 rounded shadow">
+        <span x-text="message"></span>
+    </div>
     <a href="/keranjang" class="fixed p-3 bg-yellow-500 rounded-xl shadow-lg z-50 bottom-0 mb-10" style="margin-left:275px;">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none">
             <path d="M17 18C15.89 18 15 18.89 15 20C15 20.5304 15.2107 21.0391 15.5858 21.4142C15.9609 21.7893 16.4696 
@@ -27,6 +56,9 @@
             21.0391 9 20.5304 9 20C9 19.4696 8.78929 18.9609 8.41421 18.5858C8.03914 18.2107 7.53043 18 7 18Z" 
             fill="#F8F8F8"/>
         </svg>
+        <span x-show="count > 0" x-text="count"
+            class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+        </span>
     </a>
     {{-- logout --}}
     <a class="flex overflow-x-auto items-center text-xs text-slate-50" href="{{ route('guest.logout') }}">
@@ -44,12 +76,12 @@
             </button>
         </form>
         <a href="/detail-pesanan">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"><path fill="#fff" d="M12 21q-3.45 0-6.012-2.287T3.05 13H5.1q.35 2.6 2.313 4.3T12 19q2.925 0 4.963-2.037T19 12t-2.037-4.962T12 5q-1.725 0-3.225.8T6.25 8H9v2H3V4h2v2.35q1.275-1.6 3.113-2.475T12 3q1.875 0 3.513.713t2.85 1.924t1.925 2.85T21 12t-.712 3.513t-1.925 2.85t-2.85 1.925T12 21m2.8-4.8L11 12.4V7h2v4.6l3.2 3.2z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24"><path fill="#fff" d="M12 21q-3.45 0-6.012-2.287T3.05 13H5.1q.35 2.6 2.313 4.3T12 19q2.925 0 4.963-2.037T19 12t-2.037-4.962T12 5q-1.725 0-3.225.8T6.25 8H9v2H3V4h2v2.35q1.275-1.6 3.113-2.475T12 3q1.875 0 3.513.713t2.85 1.924t1.925 2.85T21 12t-.712 3.513t-1.925 2.85t-2.85 1.925T12 21m2.8-4.8L11 12.4V7h2v4.6l3.2 3.2z"/></svg>
         </a>
     </section>
 
     {{-- Rekomendasi --}}
-    <section id="rekomendasi" class="pt-2" x-data="cartHandler()">
+    <section id="rekomendasi" class="pt-2" >
     <h2 class="text-base font-bold text-slate-50 pb-1">Rekomendasi Saya</h2>
     <div class="w-full overflow-x-auto whitespace-nowrap scroll-hidden py-2 text-slate-50">
         <div class="flex gap-4">
@@ -98,7 +130,7 @@
     </div>
 
     {{-- Menu --}}
-    <section id="menu" class="mx-auto py-2" x-data="cartHandler()">
+    <section id="menu" class="mx-auto py-2">
         @foreach ($groupedMenus as $kategori => $menus)
             @php
                 $isGenap = $loop->iteration % 2 == 0;
@@ -203,7 +235,16 @@
             open: false,
             food: {},
             cart: JSON.parse(localStorage.getItem('cart')) || [],
-
+            count: 0,
+            show: false,
+            message: '',
+            init() {
+                this.cart = JSON.parse(localStorage.getItem('cart')) || [];
+                this.updateCount();
+            }
+            updateCount() {
+                this.count = this.cart.reduce((acc, item) => acc + item.qty, 0);
+            },
             addToCart(item) {
                 let existing = this.cart.find(i => i.id === item.id);
                 if (existing) {
@@ -213,12 +254,30 @@
                     this.cart.push(item);
                 }
                 localStorage.setItem('cart', JSON.stringify(this.cart));
-                alert(item.name + " ditambahkan ke keranjang!");
+
+                this.updateCount();  // update count setiap addToCart
+
+                this.message = `${item.name} ditambahkan ke keranjang!`;
+                this.show = true;
             }
         }
     }
 </script>
+<script>
+    // Ambil cart dari localStorage
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+    // Tampilkan jumlah item
+    const cartCount = document.getElementById("cartCount");
+    cartCount.textContent = cart.length;
+
+    // Opsional: sembunyikan angka kalau kosong
+    if (cart.length === 0) {
+      cartCount.style.display = "none";
+    } else {
+      cartCount.style.display = "inline";
+    }
+  </script>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @endsection
