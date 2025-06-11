@@ -16,7 +16,6 @@
             <div class="text-left p-4 text-white space-y-4">
                 @forelse ($pesanan as $p)
                     <div class="border-b pb-2">
-                        <p><strong>Nomor Meja:</strong> {{ $p->nomor_meja }}</p>
                         <p><strong>Status:</strong> {{ $p->status }}</p>
                         <p><strong>Tanggal:</strong> {{ $p->created_at->format('d M Y H:i') }}</p>
                         <p><strong>Detail:</strong></p>
