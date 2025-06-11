@@ -32,7 +32,7 @@
 <script src="https://unpkg.com/alpinejs" defer></script>
 
 <!-- Atas -->
-<div class="py-6 px-5">
+<div class="py-6 px-5" x-data="cartHandler()" x-init="init()">
     <a href="/keranjang" class="fixed p-3 bg-yellow-500 rounded-xl shadow-lg z-50 bottom-0 mb-10" style="margin-left:275px;">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none">
             <path d="M17 18C15.89 18 15 18.89 15 20C15 20.5304 15.2107 21.0391 15.5858 21.4142C15.9609 21.7893 16.4696 
