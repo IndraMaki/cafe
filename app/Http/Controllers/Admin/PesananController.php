@@ -49,6 +49,8 @@ class PesananController extends Controller
         $query = Pesanan::with('detailPesanan')
             ->where('status', 'selesai');
 
+        $query->orderByDesc('updated_at'); 
+
         if ($request->filled('tanggal_awal')) {
             $query->whereDate('updated_at', '>=', $request->tanggal_awal);
         }
@@ -57,23 +59,30 @@ class PesananController extends Controller
             $query->whereDate('updated_at', '<=', $request->tanggal_akhir);
         }
 
-        $menus = $query->get()->map(function ($pesanan) {
-            return (object)[
-                'id' => $pesanan->id,
-                'nama_makanan' => $pesanan->detailPesanan->pluck('nama_menu')->implode(', '),
-                'nomor_meja' => $pesanan->nomor_meja,
-                'nomor_hp' => $pesanan->nomor_hp,
-                'harga' => $pesanan->detailPesanan->sum(function ($detail) {
-                    return $detail->harga * $detail->jumlah;
-                }),
-                'tanggal_selesai' => $pesanan->updated_at,
-                'metode_pembayaran' => $pesanan->metode_pembayaran,
-                'detailPesanan' => $pesanan->detailPesanan, 
-            ];
-        });
+        $groupedPesanan = $query->get()
+            ->map(function ($pesanan) {
+                return (object)[
+                    'id' => $pesanan->id,
+                    'nomor_meja' => $pesanan->nomor_meja,
+                    'nomor_hp' => $pesanan->nomor_hp,
+                    'harga' => $pesanan->detailPesanan->sum(function ($detail) {
+                        return $detail->harga * $detail->jumlah;
+                    }),
+                    'status' => $pesanan->status,
+                    'metode_pembayaran' => $pesanan->metode_pembayaran,
+                    'updated_at' => $pesanan->updated_at,
+                    'detailPesanan' => $pesanan->detailPesanan,
+                ];
+            })
+            ->groupBy(function($item) {
+                return $item->updated_at->format('Y-m-d');
+            })
+            ->sortByDesc(function ($value, $key) { 
+                return Carbon::parse($key); 
+            });
 
 
-        return view('admin.orderhistory', compact('menus'));
+        return view('admin.orderhistory', compact('groupedPesanan'));
     }
 
     public function cetakStruk($id)

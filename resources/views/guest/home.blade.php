@@ -33,7 +33,7 @@
 
 <!-- Atas -->
 <div class="py-6 px-5" x-data="cartHandler()" x-init="init()">
-    <a href="/keranjang" class="fixed p-3 bg-yellow-500 rounded-xl shadow-lg z-50 bottom-0 mb-10" style="margin-left:275px;">
+    <a href="/keranjang" class="fixed p-3 bg-yellow-500 rounded-xl shadow-lg z-50 bottom-0 mb-10 hover:bg-yellow-700 transition-colors duration-200" style="margin-left:275px;">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none">
             <path d="M17 18C15.89 18 15 18.89 15 20C15 20.5304 15.2107 21.0391 15.5858 21.4142C15.9609 21.7893 16.4696 
             22 17 22C17.5304 22 18.0391 21.7893 18.4142 21.4142C18.7893 21.0391 19 20.5304 19 20C19 19.4696 18.7893 

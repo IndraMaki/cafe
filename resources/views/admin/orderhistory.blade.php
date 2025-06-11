@@ -13,91 +13,132 @@
         <input type="date" name="tanggal_akhir" id="tanggal_akhir" value="{{ request('tanggal_akhir') }}"
             class="border rounded px-2 py-1" />
 
-        <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Cari</button>
+        <button type="submit" class=" text-white px-3 py-1 rounded bg-yellow-500 hover:bg-yellow-600">Cari</button>
     </form>
 
-    <div class="overflow-hidden rounded-xl border border-gray-200 shadow-sm">
-        <table class="min-w-full divide-y divide-gray-300 text-sm">
-            <thead class="bg-gray-50 text-gray-600 uppercase text-xs font-semibold">
-                <tr>
-                    <th class="px-4 py-3 text-left">ID</th>
-                    <th class="px-4 py-3 text-left">Nomor Telp</th>
-                    <th class="px-4 py-3 text-left">Total Harga</th>
-                    <th class="px-4 py-3 text-left">Metode</th>
+    <div class="space-y-6"> 
+        @forelse ($groupedPesanan as $date => $pesananPerTanggal)
+            <div class="mb-4">
+                {{-- Judul Tanggal --}}
+                <h3 class="text-xl font-bold text-gray-800 mb-3 pb-2 border-b-2 border-gray-300">
+                    Transaksi Tanggal {{ \Carbon\Carbon::parse($date)->format('d F Y') }}
+                </h3>
 
-                    <th class="px-4 py-3 text-left">Cetak</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-                @forelse ($menus as $menu)
-                <tr class="bg-white hover:bg-gray-50 transition cursor-pointer"
-                    onclick="openModal(this)"
-                    data-nomorhp="{{ $menu->nomor_hp }}"
-                    data-harga="Rp {{ number_format($menu->harga, 0, ',', '.') }}"
-                    data-pesanan="{{ collect($menu->detailPesanan)->map(fn($d) => $d->nama_menu . ':' . number_format($d->harga * $d->jumlah, 0, ',', '.'))->implode(',') }}">
-                    <td class="px-4 py-2">{{ $menu->id }}</td>
-                    <td class="px-4 py-2">{{ $menu->nomor_hp }}</td>
-                    <td class="px-4 py-2">Rp {{ number_format($menu->harga, 0, ',', '.') }}</td>
-                    <td class="px-4 py-2">{{ $menu->metode_pembayaran }}</td>
-                    <td class="px-4 py-2">
-                        <a href="{{ route('admin.cetak.struk', $menu->id) }}" target="_blank"
-                        class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs">
-                        Cetak
-                        </a>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="5" class="text-center py-4 text-gray-500">Belum ada pesanan selesai.</td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
+                <div class="overflow-hidden rounded-xl border border-gray-200 shadow-sm">
+                    <table class="min-w-full divide-y divide-gray-300 text-sm">
+                        <thead class="bg-gray-50 text-gray-600 uppercase text-xs font-semibold">
+                            <tr>
+                                <th class="px-4 py-3 text-left">ID</th>
+                                <th class="px-4 py-3 text-left">Nomor Telp</th>
+                                <th class="px-4 py-3 text-left">Total Harga</th>
+                                <th class="px-4 py-3 text-left">Metode</th>
+                                <th class="px-4 py-3 text-left">Waktu</th>
+                                <th class="px-4 py-3 text-left">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            @foreach ($pesananPerTanggal as $pesananItem) 
+                                <tr class="bg-white hover:bg-gray-50 transition cursor-pointer"
+                                    onclick="openModal(this)"
+                                    data-nomorhp="{{ $pesananItem->nomor_hp }}"
+                                    data-harga="Rp {{ number_format($pesananItem->harga, 0, ',', '.') }}"
+                                    data-pesanan="{{ collect($pesananItem->detailPesanan)->map(fn($d) => $d->nama_menu . ':' . number_format($d->harga * $d->jumlah, 0, ',', '.'))->implode(',') }}">
+                                    <td class="px-4 py-2">{{ $pesananItem->id }}</td>
+                                    <td class="px-4 py-2">{{ $pesananItem->nomor_hp }}</td>
+                                    <td class="px-4 py-2">Rp {{ number_format($pesananItem->harga, 0, ',', '.') }}</td>
+                                    <td class="px-4 py-2">{{ $pesananItem->metode_pembayaran }}</td>
+                                    <td class="px-4 py-2">{{ $pesananItem->updated_at->format('H:i') }}</td>
+                                    <td class="px-4 py-2 flex items-center gap-2">
+                                        <a href="{{ route('admin.cetak.struk', $pesananItem->id) }}" target="_blank"
+                                        class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs">
+                                        Cetak
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @empty
+            <div class="text-center py-4 text-gray-500">
+                <p>Belum ada pesanan ditemukan.</p>
+            </div>
+        @endforelse
     </div>
 </div>
 
 <!-- Modal Detail Pesanan -->
-<div id="modalDetail" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white p-6 rounded-lg w-full max-w-md shadow-xl relative">
-        <button onclick="closeModal()" class="absolute top-2 right-3 text-gray-500 hover:text-black text-xl">&times;</button>
-        <h3 class="text-lg font-bold mb-4">Detail Pesanan</h3>
+<div id="modalDetail" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 transition-opacity duration-300 opacity-0 pointer-events-none">
+    <div class="bg-white p-6 rounded-lg w-full max-w-md shadow-2xl relative transform scale-95 transition-transform duration-300">
+        
+        <button onclick="closeModal()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-900 transition-colors duration-200 text-2xl font-semibold leading-none">&times;</button>
+ 
+        <h3 class="text-2xl font-bold text-gray-800 mb-3 border-b pb-3 border-gray-200">Detail Pesanan</h3>
 
-        <p class="mb-2"><strong>Nomor HP:</strong> <span id="modalNomorHp"></span></p>
-        
-        <div class="mb-2">
-            <strong>Pesanan:</strong>
-            <div id="modalPesananList" class="mt-2 space-y-1">
-                <!-- Daftar pesanan akan di-inject di sini -->
+        <div class="space-y-2 text-gray-700"> 
+            <p class="text-lg"><strong>Nomor HP:</strong> <span id="modalNomorHp" class="font-medium text-gray-900"></span></p>
+            
+            <div>
+                <p class="text-lg mb-2 font-bold">Pesanan:</p>
+                <div id="modalPesananList" class="space-y-2 text-base">
+                    </div>
             </div>
+       
+            <p class="text-xl pt-4 border-t border-gray-200"><strong>Total Harga:</strong> <span id="modalTotalHarga" class="font-bold text-green-600"></span></p>
         </div>
-        
-        <p class="mt-3"><strong>Total Harga:</strong> <span id="modalTotalHarga"></span></p>
     </div>
 </div>
 
 <script>
     function openModal(row) {
+        // Mengisi data ke dalam modal
         document.getElementById('modalNomorHp').textContent = row.dataset.nomorhp;
         document.getElementById('modalTotalHarga').textContent = row.dataset.harga;
 
         const pesananList = document.getElementById('modalPesananList');
-        pesananList.innerHTML = ''; // clear existing list
+        pesananList.innerHTML = ''; // Membersihkan daftar pesanan yang mungkin sudah ada
 
         const items = row.dataset.pesanan.split(',');
 
         items.forEach(item => {
             const [nama, harga] = item.split(':');
             const el = document.createElement('div');
-            el.className = "flex justify-between";
-            el.innerHTML = `<span>${nama}</span><span>Rp ${harga}</span>`;
+            // Menambahkan kelas Tailwind CSS untuk styling setiap item pesanan
+            el.className = "flex justify-between items-center py-1 border-b border-gray-100 last:border-b-0";
+            el.innerHTML = `
+                <span class="text-gray-800">${nama}</span>
+                <span class="font-semibold text-gray-900">Rp ${harga}</span>
+            `;
             pesananList.appendChild(el);
         });
 
-        document.getElementById('modalDetail').classList.remove('hidden');
+        // Mengatur animasi modal saat dibuka
+        const modal = document.getElementById('modalDetail');
+        const modalContent = modal.querySelector('div'); // Mengambil div konten modal
+
+        // Menghilangkan kelas hidden dan mengatur opacity/scale untuk transisi masuk
+        modal.classList.remove('hidden', 'opacity-0', 'pointer-events-none');
+        modalContent.classList.remove('scale-95'); // Hilangkan scale awal
+        modalContent.classList.add('scale-100'); // Tambahkan scale penuh
+        modal.classList.add('opacity-100'); // Atur opacity penuh
     }
 
     function closeModal() {
-        document.getElementById('modalDetail').classList.add('hidden');
+        const modal = document.getElementById('modalDetail');
+        const modalContent = modal.querySelector('div'); // Mengambil div konten modal
+
+        // Mengatur animasi modal saat ditutup
+        modal.classList.remove('opacity-100'); // Mulai fade-out
+        modalContent.classList.remove('scale-100'); // Mulai scale-out
+        modalContent.classList.add('scale-95'); // Kembali ke scale awal
+
+        // Sembunyikan modal sepenuhnya setelah transisi selesai
+        modal.addEventListener('transitionend', function handler() {
+            modal.classList.add('hidden', 'pointer-events-none');
+            // Penting: Hapus event listener setelah digunakan agar tidak menumpuk
+            modal.removeEventListener('transitionend', handler);
+        });
     }
 </script>
 @endsection
