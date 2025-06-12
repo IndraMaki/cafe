@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Guest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Menu;
+use App\Models\DetailPesanan;
 use App\Models\Kategori; // Tambahkan model Kategori
 
 class DetailController extends Controller
